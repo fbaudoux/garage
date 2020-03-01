@@ -74,4 +74,10 @@ public class TeamDomainService {
         memberOfTheTeam.add(teammates.get(teammateId));
         return memberOfTheTeam.size();
     }
+
+    public void removeAll(){
+        teams = new ConcurrentHashMap<>();
+        teammates = new ConcurrentHashMap<>();
+        members = new ConcurrentHashMap<>();
+    }
 }
