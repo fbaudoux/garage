@@ -1,15 +1,7 @@
-Dojo - Level 2
 
-Dans ce niveau, je viens ajouter une api REST pour la création d'équipes et de membres d'équipes.
-C'est une API très simple avec quelques endpoints.
-On pourra noter :
-
-* la communication du controller vers l' application service. On peut notamment voir la création des objets Request et Response pour chaque méthode de l'application service.
-
-* la communication de l'application service vers le domain service.
-
-* les tests pour le controller et le domain service
-
-On introduit également la notion d'Entity ( pas en  terme d'ORM pour le moment, mais en terme de DDD), par contre il n'y a pas de repository. Le domain service cache cette notion pour le moment et stocke tout en mémoire dans des ConcurrentHashmap.
-C'est un choix volontaire car le choix de la technologie sous jacente pour le stockage amène des questions et des possibilités très nombreuses. Cela sera fait dans un level dédié.
+* level 0 : projet SpringBoot 2.2.5 - java 8 - un seul endpoint /ok   avec le test associé
+* level 1 : ajout de la dépendance et de la configuration swagger 2.9.2
+* level 2 : création de l'API Team. Le controller, les endpoints, l'application service, le domain service, les entity.
+            pas de repository, le domain service garde tout en mémoire dans cette version. Les tests unitaires couvrent le
+            controller et le domain service.
 
