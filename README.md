@@ -17,8 +17,10 @@ Placé dans la classe principale du projet ( celle qui contient main et qui est 
 ```
 @Bean
 	public Docket api() {
-		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any())
-				.paths(PathSelectors.regex("(?!/error).+")).paths(PathSelectors.regex("(?!/actuator).+"))
+		return new Docket(DocumentationType.SWAGGER_2).select()
+		.apis(RequestHandlerSelectors.any())
+		.paths(PathSelectors.regex("(?!/error).+"))
+		.paths(PathSelectors.regex("(?!/actuator).+"))
 		.build();
 	}
 ```
