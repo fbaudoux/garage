@@ -5,4 +5,4 @@ A chaque fois que je met une nouveauté en place, je le fait via un branche que 
 
 La branche master est actuellement le merge des branches suivantes :
 
-* rien pour le moment
+* level 0 : projet SpringBoot 2.2.5 - java 8 - un seul endpoint /ok   avec le test associé
