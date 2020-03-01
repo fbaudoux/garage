@@ -1,14 +1,8 @@
-# dojo - Level0
+# dojo
 
-Dans cette branche, on trouve le projet SpringBoot (2.2.5) avec un unique endpoint /ok 
-et le test unitaire associé.
+Ce projet sert à appréhender, de façon unitaire, différentes technologies/méthodes de l'écosystème java sous SpringBoot.
+A chaque fois que je met une nouveauté en place, je le fait via un branche que je merge ensuite dans master.
 
-On peut quand même remarquer que 3 packages sont à la racine de l'application
+La branche master est actuellement le merge des branches suivantes :
 
-* infrastructure
-* application
-* domain
-
-Cela dénote l'intention de mettre en place une architecture hexagonale avec les dépendances comme suit :
-
-infrastructure -> application -> domain -> ne dépend de rien
+* level 0 : projet SpringBoot 2.2.5 - java 8 - un seul endpoint /ok   avec le test associé
