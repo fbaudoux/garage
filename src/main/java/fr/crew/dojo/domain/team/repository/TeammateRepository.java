@@ -1,35 +1,17 @@
 package fr.crew.dojo.domain.team.repository;
 
-import fr.crew.dojo.domain.team.entity.TeamEntity;
 import fr.crew.dojo.domain.team.entity.TeammateEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 
-@Component
-public class TeammateRepository {
+public interface TeammateRepository extends JpaRepository<TeammateEntity,Long> {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
-    public Collection<TeammateEntity> getAllTeammates() {
-        return jdbcTemplate.query(
-                "select * from teammate",
-                (rs, rowNum) ->{
-                    TeammateEntity entity = new TeammateEntity();
-                    entity.setId(rs.getLong("id"));
-                    entity.setName(rs.getString("name"));
-                    return entity;
-                }
-
-        );
-    }
-
-    public void save(TeammateEntity newTeammate) {
-        jdbcTemplate.update(
-                "insert into teammate (name) values(?)",
-                newTeammate.getName());
-    }
+    @Query(
+            value = "SELECT * FROM teammate t join membership m on m.teammateid = t.id WHERE m.teamid=:teamId",
+            nativeQuery = true)
+    Collection<TeammateEntity> findTeamMembers(@Param("teamId") Long teamId);
 }

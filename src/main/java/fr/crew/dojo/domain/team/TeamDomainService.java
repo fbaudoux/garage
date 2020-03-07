@@ -21,15 +21,15 @@ public class TeamDomainService {
 
 
     public Collection<TeamEntity> getAllTeams() {
-        return teamRepository.getAllTeams();
+        return teamRepository.findAll();
     }
 
     public TeamEntity getTeam(Long teamId) {
-        return teamRepository.get(teamId);
+        return teamRepository.getOne(teamId);
     }
 
     public Collection<TeammateEntity> getTeammatesForTeam(TeamEntity aTeam) {
-        return teamRepository.getMembers(aTeam);
+        return teammateRepository.findTeamMembers(aTeam.getId());
     }
 
     public TeamEntity createTeam(String name) {
@@ -40,7 +40,7 @@ public class TeamDomainService {
     }
 
     public Collection<TeammateEntity> getAllTeammates() {
-        return teammateRepository.getAllTeammates();
+        return teammateRepository.findAll();
     }
 
     public TeammateEntity createTeammate(String name) {
