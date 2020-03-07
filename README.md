@@ -5,4 +5,5 @@
             pas de repository, le domain service garde tout en mémoire dans cette version. Les tests unitaires couvrent le
             controller et le domain service.
 * level 3 : introduction de la notion de repository. J'utilise une base H2 et SpringJDBC. La base est crée et peuplée via les fichiers schema.sql et data.sql
+* level 4 : on passe en JPA , cela simplifie un peu les repository mais les tests doivent être annotés @Transactional pour fonctionner
 
