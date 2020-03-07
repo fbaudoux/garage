@@ -1,9 +1,30 @@
 package fr.crew.dojo.domain.team.entity;
 
 
-public class TeamEntity {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity(
+        name = "Team"
+)
+@Table(
+        name = "TEAM"
+)
+public class TeamEntity {
+    @Id
+    @GeneratedValue
+    @Column(
+            name = "ID"
+    )
     private Long id;
+
+
+    @Column(
+            name = "NAME"
+    )
     private String name;
 
     public TeamEntity() {
