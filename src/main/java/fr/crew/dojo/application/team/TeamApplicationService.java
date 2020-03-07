@@ -55,7 +55,8 @@ public class TeamApplicationService {
 
     public AddTeammateToTeamResponse addTeammateToTeam(AddTeammateToTeamRequest req) {
 
-        return new AddTeammateToTeamResponse(domainService.addTeammateToTeam(req.getTeammateId(),req.getTeamId()));
+        domainService.addTeammateToTeam(req.getTeammateId(),req.getTeamId());
+        return new AddTeammateToTeamResponse();
     }
 
 }

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Collection;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -23,23 +25,21 @@ class TeamDomainServiceTest {
 
     @BeforeEach
     void setUp() {
-        teamFoo = domainService.createTeam("foo team");
-        teammateFoo = domainService.createTeammate("foo");
     }
 
     @AfterEach
     void tearDown() {
-        domainService.removeAll();
+
     }
 
     @Test
     void getAllTeams() {
-         assertTrue(domainService.getAllTeams().contains(teamFoo));
+        assertEquals(3,domainService.getAllTeams().size());
     }
 
     @Test
     void getTeam() {
-        assertEquals(domainService.getTeam(1L),teamFoo);
+        assertEquals(domainService.getTeam(1L).getName(),"A");
     }
 
     @Test
@@ -54,7 +54,7 @@ class TeamDomainServiceTest {
 
     @Test
     void getAllTeammates() {
-        assertTrue(domainService.getAllTeammates().contains(teammateFoo));
+        assertEquals(3,domainService.getAllTeammates().size());
     }
 
     @Test
@@ -65,7 +65,10 @@ class TeamDomainServiceTest {
 
     @Test
     void addTeammateToTeam() {
-        int nb = domainService.addTeammateToTeam(1L, 1L);
-        assertEquals(nb,1);
+        domainService.addTeammateToTeam(1L, 2L);
+        TeamEntity team = new TeamEntity();
+        team.setId(2L);
+        Collection<TeammateEntity> teammatesForTeam = domainService.getTeammatesForTeam(team);
+        assertEquals(1,teammatesForTeam.size());
     }
 }
