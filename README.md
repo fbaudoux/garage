@@ -4,4 +4,5 @@
 * level 2 : création de l'API Team. Le controller, les endpoints, l'application service, le domain service, les entity.
             pas de repository, le domain service garde tout en mémoire dans cette version. Les tests unitaires couvrent le
             controller et le domain service.
+* level 3 : introduction de la notion de repository. J'utilise une base H2 et SpringJDBC. La base est crée et peuplée via les fichiers schema.sql et data.sql
 
