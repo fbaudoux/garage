@@ -4,6 +4,8 @@ import fr.crew.dojo.domain.team.entity.TeamEntity;
 import fr.crew.dojo.domain.team.entity.TeammateEntity;
 import fr.crew.dojo.domain.team.repository.TeamRepository;
 import fr.crew.dojo.domain.team.repository.TeammateRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,9 @@ import java.util.Collection;
 
 @Service
 public class TeamDomainService {
+
+
+    Logger logger = LoggerFactory.getLogger(TeamDomainService.class);
 
     @Autowired
     TeamRepository teamRepository;
@@ -33,6 +38,7 @@ public class TeamDomainService {
     }
 
     public TeamEntity createTeam(String name) {
+        logger.info("A new team is created : " + name);
         TeamEntity newTeam = new TeamEntity();
         newTeam.setName(name);
         teamRepository.save(newTeam);
@@ -44,6 +50,7 @@ public class TeamDomainService {
     }
 
     public TeammateEntity createTeammate(String name) {
+        logger.info("A new teammate is created : " + name);
         TeammateEntity newTeammate = new TeammateEntity();
         newTeammate.setName(name);
         teammateRepository.save(newTeammate);
@@ -52,6 +59,7 @@ public class TeamDomainService {
 
 
     public void addTeammateToTeam(Long teammateId, Long teamId) {
+        logger.info("A new membership is created ");
         teamRepository.addTeammateToTeam(teammateId,teamId);
     }
 
