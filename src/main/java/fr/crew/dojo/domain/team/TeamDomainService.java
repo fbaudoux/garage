@@ -7,6 +7,8 @@ import fr.crew.dojo.domain.team.repository.TeammateRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -64,5 +66,9 @@ public class TeamDomainService {
     }
 
     public void removeAll() {
+    }
+
+    public Page<TeamEntity> getAllTeamsPageByPage(Integer pageNumber) {
+        return teamRepository.findAll(PageRequest.of(pageNumber,10));
     }
 }
