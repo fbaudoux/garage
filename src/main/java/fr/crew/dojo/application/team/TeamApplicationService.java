@@ -7,6 +7,7 @@ import fr.crew.dojo.application.team.command.CreateTeamResponse;
 import fr.crew.dojo.application.team.command.CreateTeammateRequest;
 import fr.crew.dojo.application.team.command.CreateTeammateResponse;
 import fr.crew.dojo.application.team.command.GetAllTeammatesResponse;
+import fr.crew.dojo.application.team.command.GetAllTeamsPageByPageResponse;
 import fr.crew.dojo.application.team.command.GetAllTeamsResponse;
 import fr.crew.dojo.application.team.command.GetTeamRequest;
 import fr.crew.dojo.application.team.command.GetTeamResponse;
@@ -59,4 +60,7 @@ public class TeamApplicationService {
         return new AddTeammateToTeamResponse();
     }
 
+    public GetAllTeamsPageByPageResponse getAllTeamsPageByPage(Integer pageNumber) {
+        return new GetAllTeamsPageByPageResponse(domainService.getAllTeamsPageByPage(pageNumber));
+    }
 }

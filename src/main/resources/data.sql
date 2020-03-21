@@ -1,7 +1,9 @@
 INSERT INTO team (name) VALUES
-  ('A'),
-  ('B'),
-  ('C');
+  ('A'),('B'),('C'),('D'),('E'),('F'),('G'),('H'),('I'),('J'),('K'),('L'),('M'),('N'),('O'),('P'),('Q'),('R'),('S'),('T'),('U'),
+  ('V'),('W'),('X'),('Y'),('Z')
+  ;
+
+
 
 
   INSERT INTO teammate (name) VALUES
