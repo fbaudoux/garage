@@ -8,6 +8,8 @@ import fr.crew.dojo.application.team.command.CreateTeamRequest;
 import fr.crew.dojo.application.team.command.CreateTeamResponse;
 import fr.crew.dojo.application.team.command.CreateTeammateRequest;
 import fr.crew.dojo.application.team.command.CreateTeammateResponse;
+import fr.crew.dojo.application.team.command.CreateTeamsRequest;
+import fr.crew.dojo.application.team.command.CreateTeamsResponse;
 import fr.crew.dojo.application.team.command.GetAllTeammatesResponse;
 import fr.crew.dojo.application.team.command.GetAllTeamsPageByPageResponse;
 import fr.crew.dojo.application.team.command.GetAllTeamsResponse;
@@ -16,17 +18,18 @@ import fr.crew.dojo.application.team.command.GetTeamResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.validation.Valid;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Controller team.
@@ -49,6 +52,30 @@ public class TeamController {
     public GetAllTeamsPageByPageResponse getAllTeamsPageByPage(@PathVariable(value = "pageNumber") Integer pageNumber) {
         return applicationService.getAllTeamsPageByPage(pageNumber);
     }
+
+
+    @ApiOperation(value = "getAllTeamsStream", notes = "Get all teams using Server Sent Event")
+    @GetMapping( {"/teams/stream"})
+    public ResponseBodyEmitter getAllTeamsStream() {
+
+
+        final SseEmitter emitter = new SseEmitter();
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        service.execute(() -> {
+            try {
+                applicationService.getAllTeamsStream(emitter);
+            } catch (Exception e) {
+                e.printStackTrace();
+                emitter.completeWithError(e);
+                return;
+            }
+
+            emitter.complete();
+        });
+
+        return emitter;
+    }
+
 
     @ApiOperation(value = "getTeam", notes = "Get a team with its teammates")
     @GetMapping( {"/teams/{teamId}/"})
@@ -80,7 +107,11 @@ public class TeamController {
         return applicationService.addTeammateToTeam(new AddTeammateToTeamRequest(teammateId, teamId));
     }
 
-
+    @ApiOperation(value = "createTeams", notes = "Create new temas with random names")
+    @PostMapping(value = {"/teams/"}, params = "number")
+    public CreateTeamsResponse createMultipleTeam(@RequestParam Integer number) {
+        return applicationService.createTeams(new CreateTeamsRequest(number));
+    }
 
 
 }

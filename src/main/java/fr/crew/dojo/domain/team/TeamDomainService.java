@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Random;
 
 
 @Service
@@ -62,13 +63,30 @@ public class TeamDomainService {
 
     public void addTeammateToTeam(Long teammateId, Long teamId) {
         logger.info("A new membership is created ");
-        teamRepository.addTeammateToTeam(teammateId,teamId);
+        teamRepository.addTeammateToTeam(teammateId, teamId);
     }
 
     public void removeAll() {
     }
 
     public Page<TeamEntity> getAllTeamsPageByPage(Integer pageNumber) {
-        return teamRepository.findAll(PageRequest.of(pageNumber,10));
+        return teamRepository.findAll(PageRequest.of(pageNumber, 10));
+    }
+
+    public TeamEntity createTeamWithRandomName() {
+
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+
+        String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
+
+        return this.createTeam(generatedString);
     }
 }

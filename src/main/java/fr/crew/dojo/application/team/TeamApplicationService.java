@@ -6,6 +6,8 @@ import fr.crew.dojo.application.team.command.CreateTeamRequest;
 import fr.crew.dojo.application.team.command.CreateTeamResponse;
 import fr.crew.dojo.application.team.command.CreateTeammateRequest;
 import fr.crew.dojo.application.team.command.CreateTeammateResponse;
+import fr.crew.dojo.application.team.command.CreateTeamsRequest;
+import fr.crew.dojo.application.team.command.CreateTeamsResponse;
 import fr.crew.dojo.application.team.command.GetAllTeammatesResponse;
 import fr.crew.dojo.application.team.command.GetAllTeamsPageByPageResponse;
 import fr.crew.dojo.application.team.command.GetAllTeamsResponse;
@@ -16,7 +18,9 @@ import fr.crew.dojo.domain.team.entity.TeamEntity;
 import fr.crew.dojo.domain.team.entity.TeammateEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
 import java.util.Collection;
 
 
@@ -34,7 +38,7 @@ public class TeamApplicationService {
 
     public GetTeamResponse getTeam(GetTeamRequest req) {
 
-        TeamEntity aTeam =  domainService.getTeam(req.getTeamId());
+        TeamEntity aTeam = domainService.getTeam(req.getTeamId());
         Collection<TeammateEntity> members = domainService.getTeammatesForTeam(aTeam);
         return new GetTeamResponse(aTeam, members);
     }
@@ -56,11 +60,33 @@ public class TeamApplicationService {
 
     public AddTeammateToTeamResponse addTeammateToTeam(AddTeammateToTeamRequest req) {
 
-        domainService.addTeammateToTeam(req.getTeammateId(),req.getTeamId());
+        domainService.addTeammateToTeam(req.getTeammateId(), req.getTeamId());
         return new AddTeammateToTeamResponse();
     }
 
     public GetAllTeamsPageByPageResponse getAllTeamsPageByPage(Integer pageNumber) {
         return new GetAllTeamsPageByPageResponse(domainService.getAllTeamsPageByPage(pageNumber));
+    }
+
+    public CreateTeamsResponse createTeams(CreateTeamsRequest createTeamsRequest) {
+
+        CreateTeamsResponse result = new CreateTeamsResponse();
+
+        for (int i = 0; i < createTeamsRequest.getNumberOfTeamsToCreate(); i++) {
+            result.addTeam(domainService.createTeamWithRandomName());
+        }
+
+        return result;
+
+    }
+
+    public void getAllTeamsStream(SseEmitter emitter) {
+        domainService.getAllTeams().parallelStream().forEach(team -> {
+            try {
+                emitter.send(team);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
