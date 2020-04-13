@@ -9,4 +9,5 @@
 * level 5 : ajout des fonctions de logging avec logback
 * level 6 : mise en place d'un endpoint qui gère la pagination
 * level 7 : mise en place d'un endpoint qui renvoie un flux d informations sous la forme de Server Sent Event
+            et d'un endpoint qui gère la création en masse d'équipes  
 
