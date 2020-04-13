@@ -8,4 +8,5 @@
 * level 4 : on passe en JPA , cela simplifie un peu les repository mais les tests doivent être annotés @Transactional pour fonctionner
 * level 5 : ajout des fonctions de logging avec logback
 * level 6 : mise en place d'un endpoint qui gère la pagination
+* level 7 : mise en place d'un endpoint qui renvoie un flux d informations sous la forme de Server Sent Event
 
