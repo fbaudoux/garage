@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Random;
@@ -61,6 +62,7 @@ public class TeamDomainService {
     }
 
 
+    @Transactional
     public void addTeammateToTeam(Long teammateId, Long teamId) {
         logger.info("A new membership is created ");
         teamRepository.addTeammateToTeam(teammateId, teamId);
