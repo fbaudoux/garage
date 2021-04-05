@@ -1,6 +1,7 @@
 package fr.crew.garage.infrastructure.rest.team;
 
 import fr.crew.garage.domain.team.TeamDomainService;
+import fr.crew.garage.domain.team.entity.TeamEntity;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,12 +29,16 @@ class TeamControllerTest {
     private TeamDomainService domainService;
 
 
+    private TeamEntity foo_team = null;
+    private TeamEntity bar_team = null;
+
+
     @BeforeEach
     void setUp() {
         domainService.createTeammate("foo");
         domainService.createTeammate("bar");
-        domainService.createTeam("foo_team");
-        domainService.createTeam("bar_team");
+        foo_team = domainService.createTeam("foo_team");
+        bar_team = domainService.createTeam("bar_team");
     }
 
     @AfterEach
@@ -51,7 +56,7 @@ class TeamControllerTest {
 
     @Test
     void getTeam() throws Exception {
-        this.mockMvc.perform(get("/teams/1/")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(get("/teams/"+foo_team.getId()+"/")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("foo_team")));
     }
 
@@ -73,6 +78,7 @@ class TeamControllerTest {
 
     @Test
     void addTeammateToTeam() throws Exception {
-        this.mockMvc.perform(post("/teams/1/teammates/1")).andExpect(status().isOk()).andExpect(content().string(containsString("\"numberOfMembers\":1")));
+        this.mockMvc.perform(post("/teams/"+foo_team.getId()+"/teammates/1")).andExpect(status().isOk());
+        this.mockMvc.perform(get("/teams/"+foo_team.getId()+"/")).andExpect(status().isOk()).andExpect(content().string(containsString("\"name\":\"foo\"")));
     }
 }
