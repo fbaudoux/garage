@@ -61,8 +61,6 @@ public class TeamDomainService {
         return newTeammate;
     }
 
-
-    @Transactional
     public void addTeammateToTeam(Long teammateId, Long teamId) {
         logger.info("A new membership is created ");
         teamRepository.addTeammateToTeam(teammateId, teamId);
