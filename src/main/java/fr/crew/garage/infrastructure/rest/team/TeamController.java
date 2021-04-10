@@ -35,7 +35,7 @@ import java.util.concurrent.Executors;
  * Controller team.
  */
 @RestController
-@Api(value = "Teams", description = "Teams endpoints", tags = {"Teams"})
+@Api(value = "Teams", tags = {"Teams"})
 public class TeamController {
 
     @Autowired
