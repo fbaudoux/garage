@@ -1,0 +1,26 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+}
+
+group = 'fr.crew'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    // Use JCenter for resolving dependencies.
+    jcenter()
+}
+
+dependencies {
+    // Use JUnit test framework for unit tests
+    testImplementation 'junit:junit:4.13'
+}
+
+gradlePlugin {
+    plugins {
+        generator {
+            id = 'fr.crew.generator'
+            implementationClass = 'fr.crew.generator.GeneratorPlugin'
+        }
+    }
+}
