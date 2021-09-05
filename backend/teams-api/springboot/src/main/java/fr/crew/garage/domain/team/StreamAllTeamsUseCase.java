@@ -1,4 +1,4 @@
-package fr.crew.garage.application.team;
+package fr.crew.garage.domain.team;
 
 import fr.crew.garage.domain.team.TeamDomainService;
 import org.springframework.beans.factory.annotation.Autowired;

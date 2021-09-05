@@ -1,4 +1,4 @@
-package fr.crew.garage.application.team.command;
+package fr.crew.garage.domain.team.command;
 
 
 public class GetTeamMateRequest {
