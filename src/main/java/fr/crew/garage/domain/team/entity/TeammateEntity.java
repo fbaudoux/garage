@@ -1,11 +1,9 @@
 package fr.crew.garage.domain.team.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import fr.crew.garage.domain.skill.entity.SkillEntity;
 
+import javax.persistence.*;
+import java.util.List;
 
 
 @Entity(
@@ -28,6 +26,28 @@ public class TeammateEntity {
             name = "NAME"
     )
     private String name;
+
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "teammate_skill",
+            joinColumns = { @JoinColumn(name = "teammate_fk") },
+            inverseJoinColumns = { @JoinColumn(name = "skill_fk") })
+    List<SkillEntity> skills;
+
+    public List<SkillEntity> getSkills() {
+        return skills;
+    }
+
+    public void addSkill(SkillEntity skill) {
+        this.skills.add(skill);
+        skill.giveSkillToTeammates(this);
+    }
+
+    public void removeSkill(SkillEntity skill) {
+        this.skills.remove(skill);
+        skill.removeSkillToTeammates(this);
+    }
+
 
     public TeammateEntity() {
     }

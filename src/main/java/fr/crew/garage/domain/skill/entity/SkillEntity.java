@@ -1,6 +1,10 @@
 package fr.crew.garage.domain.skill.entity;
 
+import fr.crew.garage.domain.team.entity.TeammateEntity;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(
         name = "Skill"
@@ -21,6 +25,22 @@ public class SkillEntity {
             name = "NAME"
     )
     private String name;
+
+
+    @ManyToMany(mappedBy="skills")
+    private List<TeammateEntity> teammatesHavingSkill = new ArrayList<>();
+
+    public List<TeammateEntity> getTeammatesHavingSkill() {
+        return teammatesHavingSkill;
+    }
+
+    public void giveSkillToTeammates(TeammateEntity skilledTeammate) {
+        this.teammatesHavingSkill.add(skilledTeammate);
+    }
+
+    public void removeSkillToTeammates(TeammateEntity skilledTeammate) {
+        this.teammatesHavingSkill.remove(skilledTeammate);
+    }
 
     public SkillEntity() {
     }

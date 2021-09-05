@@ -6,6 +6,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,13 +15,11 @@ import java.util.Collection;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 class TeamDomainServiceTest {
 
     @Autowired
     TeamDomainService domainService;
-
-    TeamEntity teamFoo;
-    TeammateEntity teammateFoo;
 
     @BeforeEach
     void setUp() {
@@ -34,22 +33,21 @@ class TeamDomainServiceTest {
     @Test
     @Transactional
     void getAllTeams() {
-        assertEquals(3,domainService.getAllTeams().size());
+        assertEquals(2,domainService.getAllTeams().size());
     }
 
     @Test
     @Transactional
     void getTeam() {
-        assertEquals(domainService.getTeam(1L).getName(),"A");
+        assertEquals(domainService.getTeam(1L).getName(),"Marvel");
     }
 
     @Test
     @Transactional
     void getTeammatesForTeam() {
-        TeamEntity team = new TeamEntity();
-        team.setId(1L);
+        TeamEntity team = domainService.getTeamByName("Marvel");
 
-        assertEquals(3,domainService.getTeammatesForTeam(team).size());
+        assertEquals(4,domainService.getTeammatesForTeam(team).size());
     }
 
     @Test
@@ -62,7 +60,7 @@ class TeamDomainServiceTest {
     @Test
     @Transactional
     void getAllTeammates() {
-        assertEquals(3,domainService.getAllTeammates().size());
+        assertEquals(8,domainService.getAllTeammates().size());
     }
 
     @Test
@@ -75,10 +73,10 @@ class TeamDomainServiceTest {
     @Test
     @Transactional
     void addTeammateToTeam() {
-        domainService.addTeammateToTeam(1L, 2L);
-        TeamEntity team = new TeamEntity();
-        team.setId(2L);
+        TeammateEntity john = domainService.createTeammate("John");
+        TeamEntity team = domainService.teamRepository.findByName("Marvel");
+        domainService.addTeammateToTeam(john, team);
         Collection<TeammateEntity> teammatesForTeam = domainService.getTeammatesForTeam(team);
-        assertEquals(1,teammatesForTeam.size());
+        assertEquals(5,teammatesForTeam.size());
     }
 }

@@ -12,4 +12,6 @@ public interface TeamRepository extends JpaRepository<TeamEntity,Long> {
     @Modifying
     @Query(value = "insert into membership(teamId, teammateId) VALUES (:teamId, :teammateId)", nativeQuery = true)
     void addTeammateToTeam(@Param("teammateId") Long teammateId,@Param("teamId") Long teamId);
+
+    public TeamEntity findByName(String name);
 }

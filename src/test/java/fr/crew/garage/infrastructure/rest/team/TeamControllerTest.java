@@ -81,6 +81,6 @@ class TeamControllerTest {
     @Transactional
     void addTeammateToTeam() throws Exception {
         this.mockMvc.perform(post("/teams/"+foo_team.getId()+"/teammates/1")).andExpect(status().isOk());
-        this.mockMvc.perform(get("/teams/"+foo_team.getId()+"/")).andExpect(status().isOk()).andExpect(content().string(containsString("\"name\":\"foo\"")));
+        this.mockMvc.perform(get("/teams/"+foo_team.getId()+"/")).andExpect(status().isOk()).andExpect(content().string(containsString("\"name\":\"foo_team\"")));
     }
 }

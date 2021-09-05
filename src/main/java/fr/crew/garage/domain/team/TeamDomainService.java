@@ -37,6 +37,14 @@ public class TeamDomainService {
         return teamRepository.getOne(teamId);
     }
 
+    public TeamEntity getTeamByName(String name) {
+        return teamRepository.findByName(name);
+    }
+
+    public TeammateEntity getTeammateByName(String name) {
+        return teammateRepository.findByName(name);
+    }
+
     public Collection<TeammateEntity> getTeammatesForTeam(TeamEntity aTeam) {
         return teammateRepository.findTeamMembers(aTeam.getId());
     }
@@ -61,9 +69,9 @@ public class TeamDomainService {
         return newTeammate;
     }
 
-    public void addTeammateToTeam(Long teammateId, Long teamId) {
+    public void addTeammateToTeam(TeammateEntity teammate, TeamEntity team) {
         logger.info("A new membership is created ");
-        teamRepository.addTeammateToTeam(teammateId, teamId);
+        teamRepository.addTeammateToTeam(teammate.getId(), team.getId());
     }
 
     public void removeAll() {
