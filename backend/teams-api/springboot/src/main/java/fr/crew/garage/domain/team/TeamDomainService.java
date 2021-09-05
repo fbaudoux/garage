@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Random;
@@ -37,6 +36,14 @@ public class TeamDomainService {
         return teamRepository.getOne(teamId);
     }
 
+    public TeamEntity getTeamByName(String name) {
+        return teamRepository.findByName(name);
+    }
+
+    public TeammateEntity getTeammateByName(String name) {
+        return teammateRepository.findByName(name);
+    }
+
     public Collection<TeammateEntity> getTeammatesForTeam(TeamEntity aTeam) {
         return teammateRepository.findTeamMembers(aTeam.getId());
     }
@@ -61,9 +68,9 @@ public class TeamDomainService {
         return newTeammate;
     }
 
-    public void addTeammateToTeam(Long teammateId, Long teamId) {
+    public void addTeammateToTeam(TeammateEntity teammate, TeamEntity team) {
         logger.info("A new membership is created ");
-        teamRepository.addTeammateToTeam(teammateId, teamId);
+        teamRepository.addTeammateToTeam(teammate.getId(), team.getId());
     }
 
     public void removeAll() {

@@ -1,8 +1,14 @@
 package fr.crew.garage.domain.skill.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.crew.garage.domain.team.entity.TeammateEntity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +33,8 @@ public class SkillEntity {
     private String name;
 
 
-    @ManyToMany(mappedBy="skills")
+    @ManyToMany(mappedBy = "skills")
+    @JsonIgnore
     private List<TeammateEntity> teammatesHavingSkill = new ArrayList<>();
 
     public List<TeammateEntity> getTeammatesHavingSkill() {

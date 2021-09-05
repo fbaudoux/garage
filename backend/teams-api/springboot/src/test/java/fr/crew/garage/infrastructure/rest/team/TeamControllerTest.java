@@ -57,30 +57,30 @@ class TeamControllerTest {
 
     @Test
     void getTeam() throws Exception {
-        this.mockMvc.perform(get("/teams/"+foo_team.getId()+"/")).andDo(print()).andExpect(status().isOk())
+        this.mockMvc.perform(get("/teams/" + foo_team.getId() + "/")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("foo_team")));
     }
 
     @Test
-    void getAllTeammates() throws Exception  {
+    void getAllTeammates() throws Exception {
         this.mockMvc.perform(get("/teammates/")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("bar")));
     }
 
     @Test
-    void createTeammate() throws Exception  {
-        this.mockMvc.perform(post("/teammates/").contentType(MediaType.APPLICATION_JSON).content("{name:testTeammate}")).andExpect(status().isOk()).andExpect(content().string(containsString("testTeammate")));
+    void createTeammate() throws Exception {
+        this.mockMvc.perform(post("/teammates/").contentType(MediaType.APPLICATION_JSON).content("{name:testTeammate}")).andExpect(status().isCreated());
     }
 
     @Test
-    void createTeam() throws Exception  {
-        this.mockMvc.perform(post("/teams/").contentType(MediaType.APPLICATION_JSON).content("{name:testTeam}")).andExpect(status().isOk()).andExpect(content().string(containsString("testTeam")));
+    void createTeam() throws Exception {
+        this.mockMvc.perform(post("/teams/").contentType(MediaType.APPLICATION_JSON).content("{name:testTeam}")).andExpect(status().isCreated());
     }
 
     @Test
     @Transactional
     void addTeammateToTeam() throws Exception {
-        this.mockMvc.perform(post("/teams/"+foo_team.getId()+"/teammates/1")).andExpect(status().isOk());
-        this.mockMvc.perform(get("/teams/"+foo_team.getId()+"/")).andExpect(status().isOk()).andExpect(content().string(containsString("\"name\":\"foo_team\"")));
+        this.mockMvc.perform(post("/teams/" + foo_team.getId() + "/teammates/1")).andExpect(status().isOk());
+        this.mockMvc.perform(get("/teams/" + foo_team.getId() + "/")).andExpect(status().isOk()).andExpect(content().string(containsString("\"name\":\"foo_team\"")));
     }
 }

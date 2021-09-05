@@ -1,7 +1,5 @@
 package fr.crew.garage.infrastructure.rest.team;
 
-
-import fr.crew.garage.domain.team.AddTeammateToTeamUseCase;
 import fr.crew.garage.domain.team.CreateTeamUseCase;
 import fr.crew.garage.domain.team.CreateTeammateUseCase;
 import fr.crew.garage.domain.team.GetAllTeammatesUseCase;
@@ -9,6 +7,7 @@ import fr.crew.garage.domain.team.GetAllTeamsPageByPageUseCase;
 import fr.crew.garage.domain.team.GetAllTeamsUseCase;
 import fr.crew.garage.domain.team.GetTeamUseCase;
 import fr.crew.garage.domain.team.StreamAllTeamsUseCase;
+import fr.crew.garage.domain.team.command.AddTeammateToTeamRequest;
 import fr.crew.garage.domain.team.entity.TeamEntity;
 import fr.crew.garage.domain.team.entity.TeammateEntity;
 import io.swagger.annotations.Api;
@@ -49,7 +48,7 @@ public class TeamController {
     @Autowired
     GetTeamUseCase getTeamUseCase;
     @Autowired
-    AddTeammateToTeamUseCase addTeammateToTeamUseCase;
+    fr.crew.garage.application.team.AddTeammateToTeamUseCase addTeammateToTeamUseCase;
     @Autowired
     CreateTeammateUseCase createTeammateUseCase;
     @Autowired
@@ -130,7 +129,7 @@ public class TeamController {
     @ApiOperation(value = "addTeammateToTeam", notes = "Create a membership relation between a team and a teammate")
     @PostMapping({"/teams/{teamId}/teammates/{teammateId}"})
     public ResponseEntity addTeammateToTeam(@PathVariable(value = "teamId") Long teamId, @PathVariable(value = "teammateId") Long teammateId) {
-        addTeammateToTeamUseCase.execute(teammateId, teamId);
+        addTeammateToTeamUseCase.execute(new AddTeammateToTeamRequest(teammateId, teamId));
         return ResponseEntity.ok().build();
     }
 
