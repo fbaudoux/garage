@@ -26,8 +26,8 @@ public class SearchDomainServiceTest {
     @Transactional
     void searchOneCrewOfOneTeammate() {
         SkillEntity skill = skillRepository.findByName("use the force");
-        Crew crew = new Crew("someone who can use the force", List.of(skill));
-        searchDomainService.search(List.of(crew));
+        CrewSearch crewSearch = new CrewSearch("someone who can use the force", List.of(skill));
+        searchDomainService.search(List.of(crewSearch));
     }
 
     @Test
@@ -35,8 +35,8 @@ public class SearchDomainServiceTest {
     void searchOneCrewOfTwoTeammate() {
         SkillEntity skill1 = skillRepository.findByName("drive a x-wing");
         SkillEntity skill2 = skillRepository.findByName("use the force");
-        Crew crew = new Crew("someone who can drive a x-wing", List.of(skill1, skill2));
-        searchDomainService.search(List.of(crew));
+        CrewSearch crewSearch = new CrewSearch("someone who can drive a x-wing", List.of(skill1, skill2));
+        searchDomainService.search(List.of(crewSearch));
     }
 
 
@@ -44,8 +44,26 @@ public class SearchDomainServiceTest {
     @Transactional
     void searchOneCrewOfOneTeammateWithNoSolution() {
         SkillEntity skill = skillRepository.findByName("do impossible things");
-        Crew crew = new Crew("someone who can do impossible things", List.of(skill));
-        searchDomainService.search(List.of(crew));
+        CrewSearch crewSearch = new CrewSearch("someone who can do impossible things", List.of(skill));
+        searchDomainService.search(List.of(crewSearch));
+    }
+
+    @Test
+    @Transactional
+    void test() {
+        SkillEntity skill1 = skillRepository.findByName("drive a x-wing");
+        SkillEntity skill2 = skillRepository.findByName("use the force");
+        CrewSearch crewSearch = new CrewSearch("test", List.of(skill1, skill2));
+        searchDomainService.test(crewSearch);
+    }
+
+    @Test
+    @Transactional
+    void test2() {
+        SkillEntity skill1 = skillRepository.findByName("use the force");
+        SkillEntity skill2 = skillRepository.findByName("reduce size");
+        CrewSearch crewSearch = new CrewSearch("test", List.of(skill1, skill2));
+        searchDomainService.test(crewSearch);
     }
 
 

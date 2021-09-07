@@ -1,25 +1,22 @@
 package fr.crew.garage.domain.search;
 
 import fr.crew.garage.domain.skill.entity.SkillEntity;
+import fr.crew.garage.domain.team.entity.TeammateEntity;
 
 import java.util.List;
 
 public class Crew {
 
-    private final String name;
-    private final List<SkillEntity> skills;
+    List<CrewMember> members;
 
-
-    public Crew(String name, List<SkillEntity> skills) {
-        this.name = name;
-        this.skills = skills;
+    public Crew(List<CrewMember> members) {
+        this.members = members;
     }
 
-    public String getName() {
-        return name;
-    }
+    private class CrewMember {
 
-    public List<SkillEntity> getSkills() {
-        return skills;
+        private TeammateEntity teammate;
+        private SkillEntity skill;
+
     }
 }

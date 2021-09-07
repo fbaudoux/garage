@@ -27,10 +27,12 @@ INSERT INTO skill (name) VALUES ('use the force');
 INSERT INTO skill (name) VALUES ('fight with laser saber');
 INSERT INTO skill (name) VALUES ('drive a x-wing');
 INSERT INTO skill (name) VALUES ('do impossible things');
+INSERT INTO skill (name) VALUES ('reduce size');
 
 
 insert into teammate_skill(skill_fk,teammate_fk) select s.id,ta.id from skill s ,teammate ta where s.name ='use the force' and ta.name  = 'Luke SkyWalker';
 insert into teammate_skill(skill_fk,teammate_fk) select s.id,ta.id from skill s ,teammate ta where s.name ='use the force' and ta.name  = 'Yoda';
+insert into teammate_skill(skill_fk,teammate_fk) select s.id,ta.id from skill s ,teammate ta where s.name ='use the force' and ta.name  = 'Hulk';
 
 insert into teammate_skill(skill_fk,teammate_fk) select s.id,ta.id from skill s ,teammate ta where s.name ='fight with laser saber' and ta.name  = 'Luke SkyWalker';
 insert into teammate_skill(skill_fk,teammate_fk) select s.id,ta.id from skill s ,teammate ta where s.name ='fight with laser saber' and ta.name  = 'Yoda';
@@ -38,4 +40,8 @@ insert into teammate_skill(skill_fk,teammate_fk) select s.id,ta.id from skill s 
 
 insert into teammate_skill(skill_fk,teammate_fk) select s.id,ta.id from skill s ,teammate ta where s.name ='drive a x-wing' and ta.name  = 'Luke SkyWalker';
 insert into teammate_skill(skill_fk,teammate_fk) select s.id,ta.id from skill s ,teammate ta where s.name ='drive a x-wing' and ta.name  = 'Han Solo';
+
+
+insert into teammate_skill(skill_fk,teammate_fk) select s.id,ta.id from skill s ,teammate ta where s.name ='reduce size' and ta.name  = 'AntMan';
+
 
