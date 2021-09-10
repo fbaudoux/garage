@@ -2,7 +2,16 @@ package fr.crew.garage.domain.team.entity;
 
 import fr.crew.garage.domain.skill.entity.SkillEntity;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 
@@ -28,10 +37,10 @@ public class TeammateEntity {
     private String name;
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "teammate_skill",
-            joinColumns = { @JoinColumn(name = "teammate_fk") },
-            inverseJoinColumns = { @JoinColumn(name = "skill_fk") })
+            joinColumns = {@JoinColumn(name = "teammate_fk")},
+            inverseJoinColumns = {@JoinColumn(name = "skill_fk")})
     List<SkillEntity> skills;
 
     public List<SkillEntity> getSkills() {

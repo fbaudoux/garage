@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -31,9 +32,14 @@ public class SearchDomainService {
 
     public Collection<Crew> search(List<CrewSearch> crewSearches) {
 
+        Collection<Crew> result = new ArrayList<>();
+
         Model model = new Model("team search problem");
         List<IntVar> vars = new ArrayList<>();
+        HashMap<IntVar, CrewMember> mapping = new HashMap<>();
+
         for (CrewSearch crew : crewSearches) {
+            List<CrewMember> members = new ArrayList<>();
             List<IntVar> varsByCrew = new ArrayList<>();
             logger.info("The crew " + crew.getName() + " needs " + crew.getSkills().size() + " members");
             for (SkillEntity skill : crew.getSkills()) {
@@ -41,6 +47,11 @@ public class SearchDomainService {
                 IntVar var = model.intVar("Q_" + crew.getName() + "_" + skill.getName(), possibleTeammateIdForSkill(skill));
                 vars.add(var);
                 varsByCrew.add(var);
+
+                CrewMember member = new CrewMember();
+                member.setSkill(skill);
+                members.add(member);
+                mapping.put(var, member);
             }
 
             List<TeamEntity> all = teamRepository.findAll();
@@ -53,6 +64,9 @@ public class SearchDomainService {
             IntVar[] varToConstraintByTeam = new IntVar[varsByCrew.size()];
             varToConstraintByTeam = varsByCrew.toArray(varToConstraintByTeam);
             model.table(varToConstraintByTeam, allPossibles).post();
+
+            Crew resultCrew = new Crew(members);
+            result.add(resultCrew);
         }
         model.intVar("v0", 9, 45);
 
@@ -60,22 +74,21 @@ public class SearchDomainService {
         solverVariablesTable = vars.toArray(solverVariablesTable);
         model.allDifferent(solverVariablesTable).post();
 
-        List<Solution> allSolutions = model.getSolver().findAllSolutions();
+        Solution solution = model.getSolver().findSolution();
+        logger.info("A SOLUTION");
+        for (int i = 0; i < solverVariablesTable.length; i++) {
 
-        for (Solution solution : allSolutions) {
-            logger.info("A SOLUTION");
-            for (int i = 0; i < solverVariablesTable.length; i++) {
-
-                int currentId = solution.getIntVal(solverVariablesTable[i]);
-                if (currentId != -1) {
-                    TeammateEntity one = teammateRepository.getOne((long) currentId);
-                    logger.info((solverVariablesTable[i].getName() + " : " + one.getName()));
-                } else {
-                    logger.info(solverVariablesTable[i].getName() + " : " + "NOBODY");
-                }
+            int currentId = solution.getIntVal(solverVariablesTable[i]);
+            if (currentId != -1) {
+                TeammateEntity one = teammateRepository.getOne((long) currentId);
+                mapping.get(solverVariablesTable[i]).setTeammate(one);
+                logger.info((solverVariablesTable[i].getName() + " : " + one.getName()));
+            } else {
+                logger.info(solverVariablesTable[i].getName() + " : " + "NOBODY");
             }
         }
-        return null;
+
+        return result;
     }
 
     public void test(CrewSearch crewSearch) {

@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
 
 @SpringBootTest
@@ -50,20 +51,11 @@ public class SearchDomainServiceTest {
 
     @Test
     @Transactional
-    void test() {
-        SkillEntity skill1 = skillRepository.findByName("drive a x-wing");
-        SkillEntity skill2 = skillRepository.findByName("use the force");
-        CrewSearch crewSearch = new CrewSearch("test", List.of(skill1, skill2));
-        searchDomainService.test(crewSearch);
-    }
-
-    @Test
-    @Transactional
     void test2() {
         SkillEntity skill1 = skillRepository.findByName("use the force");
         SkillEntity skill2 = skillRepository.findByName("reduce size");
         CrewSearch crewSearch = new CrewSearch("test", List.of(skill1, skill2));
-        searchDomainService.test(crewSearch);
+        Collection<Crew> search = searchDomainService.search(List.of(crewSearch));
     }
 
 

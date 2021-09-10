@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.Random;
 
@@ -68,6 +69,7 @@ public class TeamDomainService {
         return newTeammate;
     }
 
+    @Transactional
     public void addTeammateToTeam(TeammateEntity teammate, TeamEntity team) {
         logger.info("A new membership is created ");
         teamRepository.addTeammateToTeam(teammate.getId(), team.getId());

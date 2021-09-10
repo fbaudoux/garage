@@ -38,13 +38,13 @@ public class SkillDomainService {
 
 
     @Transactional
-    public void addSkillToTeammate(SkillEntity skill , TeammateEntity teammate){
+    public void addSkillToTeammate(SkillEntity skill, TeammateEntity teammate) {
         teammate.addSkill(skill);
         teammateRepository.save(teammate);
     }
 
     @Transactional
-    public void removeSkillToTeammate(SkillEntity skill , TeammateEntity teammate){
+    public void removeSkillToTeammate(SkillEntity skill, TeammateEntity teammate) {
         teammate.removeSkill(skill);
         teammateRepository.save(teammate);
 

@@ -52,7 +52,7 @@ public class TeamEntity {
     }
 
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "membership", joinColumns = @JoinColumn(name = "teamid"), inverseJoinColumns = @JoinColumn(name = "teammateid"))
     private Set<TeammateEntity> teammates;
 
