@@ -1,7 +1,7 @@
 package fr.crew.garage.api.skill;
 
 import fr.crew.garage.api.skill.dto.SkillDTO;
-import fr.crew.garage.api.team.TeammateDTO;
+import fr.crew.garage.api.team.dto.TeammateDTO;
 import fr.crew.garage.domain.skill.SkillDomainService;
 import fr.crew.garage.domain.skill.repository.SkillRepository;
 import fr.crew.garage.domain.team.repository.TeammateRepository;

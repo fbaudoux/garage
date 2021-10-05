@@ -1,5 +1,7 @@
 package fr.crew.garage.api.team;
 
+import fr.crew.garage.api.team.dto.TeamDTO;
+import fr.crew.garage.api.team.dto.TeammateDTO;
 import fr.crew.garage.domain.team.TeamDomainService;
 import fr.crew.garage.domain.team.repository.TeamRepository;
 import fr.crew.garage.domain.team.repository.TeammateRepository;
@@ -21,7 +23,7 @@ public class AddTeammateToTeamUseCase {
     TeammateRepository teammateRepository;
 
     @Transactional
-    public void execute(AddTeammateToTeamRequest req) {
-        domainService.addTeammateToTeam(teammateRepository.getOne(req.getTeammateId()), teamRepository.getOne(req.getTeamId()));
+    public void execute(TeammateDTO mate, TeamDTO team) {
+        domainService.addTeammateToTeam(teammateRepository.getById(mate.getId()), teamRepository.getById(team.getId()));
     }
 }

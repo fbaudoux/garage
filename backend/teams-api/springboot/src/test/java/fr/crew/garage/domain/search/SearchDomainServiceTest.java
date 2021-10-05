@@ -1,6 +1,5 @@
 package fr.crew.garage.domain.search;
 
-import fr.crew.garage.api.skill.dto.SkillDTO;
 import fr.crew.garage.domain.skill.entity.SkillEntity;
 import fr.crew.garage.domain.skill.repository.SkillRepository;
 import org.junit.jupiter.api.Test;
@@ -31,10 +30,9 @@ public class SearchDomainServiceTest {
     @Transactional
     void searchOneCrewOfOneTeammate() {
         SkillEntity skill = skillRepository.findByName("use the force");
-        SkillDTO dto = modelMapper.map(skill, SkillDTO.class);
 
-        ArrayList<SkillDTO> lstSkill = new ArrayList<>();
-        lstSkill.add(dto);
+        ArrayList<SkillEntity> lstSkill = new ArrayList<>();
+        lstSkill.add(skill);
 
         CrewSearch crewSearch = new CrewSearch("someone who can use the force", lstSkill);
 
@@ -49,9 +47,9 @@ public class SearchDomainServiceTest {
     void searchOneCrewOfTwoTeammate() {
         SkillEntity skill1 = skillRepository.findByName("drive a x-wing");
         SkillEntity skill2 = skillRepository.findByName("use the force");
-        ArrayList<SkillDTO> lstSkill = new ArrayList<>();
-        lstSkill.add(modelMapper.map(skill1, SkillDTO.class));
-        lstSkill.add(modelMapper.map(skill2, SkillDTO.class));
+        ArrayList<SkillEntity> lstSkill = new ArrayList<>();
+        lstSkill.add(skill1);
+        lstSkill.add(skill2);
 
         CrewSearch crewSearch = new CrewSearch("someone who can drive a x-wing", lstSkill);
 
@@ -66,9 +64,8 @@ public class SearchDomainServiceTest {
     void searchOneCrewOfOneTeammateWithNoSolution() {
         SkillEntity skill = skillRepository.findByName("do impossible things");
 
-        ArrayList<SkillDTO> lstSkill = new ArrayList<>();
-        SkillDTO dto = modelMapper.map(skill, SkillDTO.class);
-        lstSkill.add(dto);
+        ArrayList<SkillEntity> lstSkill = new ArrayList<>();
+        lstSkill.add(skill);
 
         CrewSearch crewSearch = new CrewSearch("someone who can do impossible things", lstSkill);
 

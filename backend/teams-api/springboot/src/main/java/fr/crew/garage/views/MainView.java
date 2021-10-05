@@ -20,7 +20,6 @@ import fr.crew.garage.api.skill.CreateSkillUseCase;
 import fr.crew.garage.api.skill.DeleteSkillUseCase;
 import fr.crew.garage.api.skill.GetAllSkillsUseCase;
 import fr.crew.garage.api.skill.dto.SkillDTO;
-import fr.crew.garage.api.team.AddTeammateToTeamRequest;
 import fr.crew.garage.api.team.AddTeammateToTeamUseCase;
 import fr.crew.garage.api.team.CreateTeamUseCase;
 import fr.crew.garage.api.team.CreateTeammateUseCase;
@@ -28,8 +27,8 @@ import fr.crew.garage.api.team.DeleteTeamUseCase;
 import fr.crew.garage.api.team.DeleteTeammateUseCase;
 import fr.crew.garage.api.team.GetAllTeamsUseCase;
 import fr.crew.garage.api.team.GetTeamUseCase;
-import fr.crew.garage.api.team.TeamDTO;
-import fr.crew.garage.api.team.TeammateDTO;
+import fr.crew.garage.api.team.dto.TeamDTO;
+import fr.crew.garage.api.team.dto.TeammateDTO;
 import fr.crew.garage.views.components.SearchEditor;
 
 import java.util.Collection;
@@ -232,7 +231,7 @@ public class MainView extends VerticalLayout {
         mate.setName(name.getValue());
         mate = createTeammateUseCase.execute(mate);
 
-        addTeammateToTeamUseCase.execute(new AddTeammateToTeamRequest(mate.getId(), teamDTO.getId()));
+        addTeammateToTeamUseCase.execute(mate, teamDTO);
 
         Set<SkillDTO> skillEntities = multiselectComboBox.getValue();
         for (SkillDTO skillEntity : skillEntities) {

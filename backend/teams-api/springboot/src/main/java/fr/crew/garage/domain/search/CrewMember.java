@@ -1,26 +1,26 @@
 package fr.crew.garage.domain.search;
 
-import fr.crew.garage.api.skill.dto.SkillDTO;
-import fr.crew.garage.api.team.TeammateDTO;
+import fr.crew.garage.domain.skill.entity.SkillEntity;
+import fr.crew.garage.domain.team.entity.TeammateEntity;
 
 public class CrewMember {
 
-    private TeammateDTO teammate;
-    private SkillDTO skill;
+    private TeammateEntity teammate;
+    private SkillEntity skill;
 
-    public TeammateDTO getTeammate() {
+    public TeammateEntity getTeammate() {
         return teammate;
     }
 
-    public void setTeammate(TeammateDTO teammate) {
+    public void setTeammate(TeammateEntity teammate) {
         this.teammate = teammate;
     }
 
-    public SkillDTO getSkill() {
+    public SkillEntity getSkill() {
         return skill;
     }
 
-    public void setSkill(SkillDTO skill) {
+    public void setSkill(SkillEntity skill) {
         this.skill = skill;
     }
 

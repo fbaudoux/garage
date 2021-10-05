@@ -1,6 +1,6 @@
 package fr.crew.garage.domain.team;
 
-import fr.crew.garage.api.team.TeammateDTO;
+import fr.crew.garage.api.team.dto.TeammateDTO;
 import fr.crew.garage.domain.team.entity.TeamEntity;
 import fr.crew.garage.domain.team.entity.TeammateEntity;
 import fr.crew.garage.domain.team.repository.TeamRepository;
@@ -34,22 +34,6 @@ public class TeamDomainService {
     ModelMapper modelMapper;
 
 
-    public Collection<TeamEntity> getAllTeams() {
-        return teamRepository.findAll();
-    }
-
-    public TeamEntity getTeam(Long teamId) {
-        return teamRepository.getOne(teamId);
-    }
-
-    public TeamEntity getTeamByName(String name) {
-        return teamRepository.findByName(name);
-    }
-
-    public TeammateEntity getTeammateByName(String name) {
-        return teammateRepository.findByName(name);
-    }
-
     public Collection<TeammateEntity> getTeammatesForTeam(TeamEntity aTeam) {
         return teammateRepository.findTeamMembers(aTeam.getId());
     }
@@ -60,10 +44,6 @@ public class TeamDomainService {
         newTeam.setName(name);
         teamRepository.save(newTeam);
         return newTeam;
-    }
-
-    public Collection<TeammateEntity> getAllTeammates() {
-        return teammateRepository.findAll();
     }
 
     public TeammateEntity createTeammate(TeammateDTO teammateDTO) {

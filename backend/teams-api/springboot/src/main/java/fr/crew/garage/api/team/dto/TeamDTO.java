@@ -1,4 +1,4 @@
-package fr.crew.garage.api.team;
+package fr.crew.garage.api.team.dto;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -2,8 +2,8 @@ package fr.crew.garage.domain.skill;
 
 import fr.crew.garage.domain.skill.entity.SkillEntity;
 import fr.crew.garage.domain.skill.repository.SkillRepository;
-import fr.crew.garage.domain.team.TeamDomainService;
 import fr.crew.garage.domain.team.entity.TeammateEntity;
+import fr.crew.garage.domain.team.repository.TeammateRepository;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -22,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SkillDomainServiceTest {
 
     @Autowired
-    TeamDomainService teamService;
+    TeammateRepository teammateRepository;
 
     @Autowired
     SkillDomainService domainService;
@@ -32,10 +35,9 @@ public class SkillDomainServiceTest {
 
     @Test
     @Order(1)
-    void createSkill()
-    {
+    void createSkill() {
         SkillEntity kungfu = domainService.createSkill("kung-fu");
-        assertEquals(kungfu.getName(),"kung-fu");
+        assertEquals(kungfu.getName(), "kung-fu");
 
     }
 
@@ -55,9 +57,9 @@ public class SkillDomainServiceTest {
     void addSkillToTeammate() {
 
         SkillEntity askill = skillRepository.findByName("drive a x-wing");
-        TeammateEntity yoda = teamService.getTeammateByName("Yoda");
-        domainService.addSkillToTeammate(askill,yoda);
-        assertEquals(yoda.getSkills().contains(askill) , true);
+        TeammateEntity yoda = teammateRepository.findByName("Yoda");
+        domainService.addSkillToTeammate(askill, yoda);
+        assertEquals(yoda.getSkills().contains(askill), true);
     }
 
 
@@ -66,10 +68,10 @@ public class SkillDomainServiceTest {
     @Transactional
     void removeSkillToTeammate() {
         SkillEntity askill = skillRepository.findByName("drive a x-wing");
-        TeammateEntity yoda = teamService.getTeammateByName("Yoda");
-        assertEquals(true,yoda.getSkills().contains(askill));
-        domainService.removeSkillToTeammate(askill,yoda);
-        assertEquals(false,yoda.getSkills().contains(askill) );
+        TeammateEntity yoda = teammateRepository.findByName("Yoda");
+        assertEquals(true, yoda.getSkills().contains(askill));
+        domainService.removeSkillToTeammate(askill, yoda);
+        assertEquals(false, yoda.getSkills().contains(askill));
     }
 
     @Test

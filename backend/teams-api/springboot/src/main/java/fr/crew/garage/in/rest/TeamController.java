@@ -1,6 +1,5 @@
-package fr.crew.garage.infrastructure.rest.team;
+package fr.crew.garage.in.rest;
 
-import fr.crew.garage.api.team.AddTeammateToTeamRequest;
 import fr.crew.garage.api.team.AddTeammateToTeamUseCase;
 import fr.crew.garage.api.team.CreateTeamUseCase;
 import fr.crew.garage.api.team.CreateTeammateUseCase;
@@ -9,8 +8,8 @@ import fr.crew.garage.api.team.GetAllTeamsPageByPageUseCase;
 import fr.crew.garage.api.team.GetAllTeamsUseCase;
 import fr.crew.garage.api.team.GetTeamUseCase;
 import fr.crew.garage.api.team.StreamAllTeamsUseCase;
-import fr.crew.garage.api.team.TeamDTO;
-import fr.crew.garage.api.team.TeammateDTO;
+import fr.crew.garage.api.team.dto.TeamDTO;
+import fr.crew.garage.api.team.dto.TeammateDTO;
 import fr.crew.garage.domain.team.entity.TeamEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -133,7 +132,13 @@ public class TeamController {
     @ApiOperation(value = "addTeammateToTeam", notes = "Create a membership relation between a team and a teammate")
     @PostMapping({"/teams/{teamId}/teammates/{teammateId}"})
     public ResponseEntity addTeammateToTeam(@PathVariable(value = "teamId") Long teamId, @PathVariable(value = "teammateId") Long teammateId) {
-        addTeammateToTeamUseCase.execute(new AddTeammateToTeamRequest(teammateId, teamId));
+        TeammateDTO mate = new TeammateDTO();
+        mate.setId(teammateId);
+
+        TeamDTO team = new TeamDTO();
+        team.setId(teamId);
+
+        addTeammateToTeamUseCase.execute(mate, team);
         return ResponseEntity.ok().build();
     }
 

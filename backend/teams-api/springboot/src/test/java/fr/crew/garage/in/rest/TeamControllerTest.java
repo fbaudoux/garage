@@ -1,4 +1,4 @@
-package fr.crew.garage.infrastructure.rest.team;
+package fr.crew.garage.in.rest;
 
 import fr.crew.garage.domain.team.TeamDomainService;
 import fr.crew.garage.domain.team.entity.TeamEntity;
@@ -36,7 +36,7 @@ class TeamControllerTest {
 
     @BeforeEach
     void setUp() {
-      
+
         foo_team = domainService.createTeam("foo_team");
         bar_team = domainService.createTeam("bar_team");
     }

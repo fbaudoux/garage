@@ -1,7 +1,5 @@
 package fr.crew.garage.domain.search;
 
-import fr.crew.garage.api.skill.dto.SkillDTO;
-import fr.crew.garage.api.team.TeammateDTO;
 import fr.crew.garage.domain.skill.entity.SkillEntity;
 import fr.crew.garage.domain.skill.repository.SkillRepository;
 import fr.crew.garage.domain.team.entity.TeamEntity;
@@ -52,7 +50,7 @@ public class SearchDomainService {
             List<CrewMember> members = new ArrayList<>();
             List<IntVar> varsByCrew = new ArrayList<>();
             logger.info("The crew " + crew.getName() + " needs " + crew.getSkills().size() + " members");
-            for (SkillDTO skill : crew.getSkills()) {
+            for (SkillEntity skill : crew.getSkills()) {
                 // On crée une variable pour trouver chaque membre de l equipage
                 IntVar var = model.intVar("Q_" + crew.getName() + "_" + skill.getName(), possibleTeammateIdForSkill(skillRepository.getById(skill.getId())));
                 vars.add(var);
@@ -91,7 +89,7 @@ public class SearchDomainService {
             int currentId = solution.getIntVal(solverVariablesTable[i]);
             if (currentId != -1) {
                 TeammateEntity one = teammateRepository.getOne((long) currentId);
-                mapping.get(solverVariablesTable[i]).setTeammate(modelMapper.map(one, TeammateDTO.class));
+                mapping.get(solverVariablesTable[i]).setTeammate(one);
                 logger.info((solverVariablesTable[i].getName() + " : " + one.getName()));
             } else {
                 logger.info(solverVariablesTable[i].getName() + " : " + "NOBODY");
@@ -113,7 +111,7 @@ public class SearchDomainService {
         Model model = new Model("all permutation");
         List<IntVar> vars = new ArrayList<>();
 
-        for (SkillDTO skill : crewSearch.getSkills()) {
+        for (SkillEntity skill : crewSearch.getSkills()) {
             vars.add(model.intVar("Q_" + crewSearch.getName() + "_" + skill.getName(), possibleTeammateIdForSkill(skillRepository.getById(skill.getId()), team)));
         }
 

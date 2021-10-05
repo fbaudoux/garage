@@ -1,5 +1,6 @@
 package fr.crew.garage.api.team;
 
+import fr.crew.garage.api.team.dto.TeamDTO;
 import fr.crew.garage.domain.team.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

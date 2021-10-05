@@ -12,10 +12,10 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import fr.crew.garage.api.search.SearchUseCase;
+import fr.crew.garage.api.search.dto.CrewDTO;
+import fr.crew.garage.api.search.dto.CrewSearchDTO;
 import fr.crew.garage.api.skill.GetAllSkillsUseCase;
 import fr.crew.garage.api.skill.dto.SkillDTO;
-import fr.crew.garage.domain.search.Crew;
-import fr.crew.garage.domain.search.CrewSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -82,11 +82,11 @@ public class SearchEditor extends VerticalLayout implements KeyNotifier {
 
     public void search() {
 
-        List<CrewSearch> params = crewSearchList.stream().map(combo -> new CrewSearch(crewNames.get(combo), new ArrayList<>(combo.getValue()))).collect(Collectors.toList());
-        Collection<Crew> execute = searchUseCase.execute(params);
+        List<CrewSearchDTO> params = crewSearchList.stream().map(combo -> new CrewSearchDTO(crewNames.get(combo), new ArrayList<>(combo.getValue()))).collect(Collectors.toList());
+        Collection<CrewDTO> execute = searchUseCase.execute(params);
         result.setValue("");
         if (execute.size() == 0) {
-            result.setValue("SO SORRY, I CAN NOT FIND ANY SOLUTION");
+            result.setValue("So sorry, I m unable to find any solution");
         } else {
             result.setValue("I HAVE A SOLUTION FOR YOU :");
         }

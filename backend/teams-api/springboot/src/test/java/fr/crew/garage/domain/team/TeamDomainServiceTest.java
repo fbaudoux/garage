@@ -1,8 +1,10 @@
 package fr.crew.garage.domain.team;
 
-import fr.crew.garage.api.team.TeammateDTO;
+import fr.crew.garage.api.team.dto.TeammateDTO;
 import fr.crew.garage.domain.team.entity.TeamEntity;
 import fr.crew.garage.domain.team.entity.TeammateEntity;
+import fr.crew.garage.domain.team.repository.TeamRepository;
+import fr.crew.garage.domain.team.repository.TeammateRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,12 @@ class TeamDomainServiceTest {
     @Autowired
     TeamDomainService domainService;
 
+    @Autowired
+    TeamRepository teamRepository;
+
+    @Autowired
+    TeammateRepository teammateRepository;
+
     @BeforeEach
     void setUp() {
     }
@@ -34,19 +42,19 @@ class TeamDomainServiceTest {
     @Test
     @Transactional
     void getAllTeams() {
-        assertEquals(2, domainService.getAllTeams().size());
+        assertEquals(2, teamRepository.findAll().size());
     }
 
     @Test
     @Transactional
     void getTeam() {
-        assertEquals(domainService.getTeam(1L).getName(), "Marvel");
+        assertEquals(teamRepository.getById(1L).getName(), "Marvel");
     }
 
     @Test
     @Transactional
     void getTeammatesForTeam() {
-        TeamEntity team = domainService.getTeamByName("Marvel");
+        TeamEntity team = teamRepository.findByName("Marvel");
 
         assertEquals(4, domainService.getTeammatesForTeam(team).size());
     }
@@ -56,12 +64,6 @@ class TeamDomainServiceTest {
     void createTeam() {
         TeamEntity t = domainService.createTeam("bar team");
         assertEquals(t.getName(), "bar team");
-    }
-
-    @Test
-    @Transactional
-    void getAllTeammates() {
-        assertEquals(8, domainService.getAllTeammates().size());
     }
 
     @Test

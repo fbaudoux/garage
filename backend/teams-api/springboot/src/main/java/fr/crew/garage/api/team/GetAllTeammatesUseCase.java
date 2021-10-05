@@ -1,6 +1,7 @@
 package fr.crew.garage.api.team;
 
-import fr.crew.garage.domain.team.TeamDomainService;
+import fr.crew.garage.api.team.dto.TeammateDTO;
+import fr.crew.garage.domain.team.repository.TeammateRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,14 +13,14 @@ import java.util.stream.Collectors;
 public class GetAllTeammatesUseCase {
 
     @Autowired
-    TeamDomainService domainService;
+    TeammateRepository teammateRepository;
 
     @Autowired
     ModelMapper modelMapper;
 
     public Collection<TeammateDTO> execute() {
 
-        Collection<TeammateDTO> dtos = domainService.getAllTeammates()
+        Collection<TeammateDTO> dtos = teammateRepository.findAll()
                 .stream()
                 .map(teammate -> modelMapper.map(teammate, TeammateDTO.class))
                 .collect(Collectors.toList());

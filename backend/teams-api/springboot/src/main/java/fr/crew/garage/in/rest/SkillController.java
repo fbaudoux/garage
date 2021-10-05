@@ -1,4 +1,4 @@
-package fr.crew.garage.infrastructure.rest.team;
+package fr.crew.garage.in.rest;
 
 import fr.crew.garage.api.skill.CreateSkillUseCase;
 import fr.crew.garage.api.skill.dto.SkillDTO;

@@ -1,6 +1,6 @@
-package fr.crew.garage.infrastructure.rest.skill;
+package fr.crew.garage.in.rest.skill;
 
-import fr.crew.garage.infrastructure.rest.team.SkillController;
+import fr.crew.garage.in.rest.SkillController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

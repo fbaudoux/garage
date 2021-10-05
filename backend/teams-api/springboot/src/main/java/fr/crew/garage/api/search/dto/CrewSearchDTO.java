@@ -1,4 +1,4 @@
-package fr.crew.garage.api.search;
+package fr.crew.garage.api.search.dto;
 
 import fr.crew.garage.api.skill.dto.SkillDTO;
 
