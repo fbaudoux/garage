@@ -1,15 +1,17 @@
 package fr.crew.garage.infrastructure.rest.team;
 
-import fr.crew.garage.domain.team.CreateTeamUseCase;
-import fr.crew.garage.domain.team.CreateTeammateUseCase;
-import fr.crew.garage.domain.team.GetAllTeammatesUseCase;
-import fr.crew.garage.domain.team.GetAllTeamsPageByPageUseCase;
-import fr.crew.garage.domain.team.GetAllTeamsUseCase;
-import fr.crew.garage.domain.team.GetTeamUseCase;
-import fr.crew.garage.domain.team.StreamAllTeamsUseCase;
-import fr.crew.garage.domain.team.command.AddTeammateToTeamRequest;
+import fr.crew.garage.api.team.AddTeammateToTeamRequest;
+import fr.crew.garage.api.team.AddTeammateToTeamUseCase;
+import fr.crew.garage.api.team.CreateTeamUseCase;
+import fr.crew.garage.api.team.CreateTeammateUseCase;
+import fr.crew.garage.api.team.GetAllTeammatesUseCase;
+import fr.crew.garage.api.team.GetAllTeamsPageByPageUseCase;
+import fr.crew.garage.api.team.GetAllTeamsUseCase;
+import fr.crew.garage.api.team.GetTeamUseCase;
+import fr.crew.garage.api.team.StreamAllTeamsUseCase;
+import fr.crew.garage.api.team.TeamDTO;
+import fr.crew.garage.api.team.TeammateDTO;
 import fr.crew.garage.domain.team.entity.TeamEntity;
-import fr.crew.garage.domain.team.entity.TeammateEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +50,7 @@ public class TeamController {
     @Autowired
     GetTeamUseCase getTeamUseCase;
     @Autowired
-    fr.crew.garage.application.team.AddTeammateToTeamUseCase addTeammateToTeamUseCase;
+    AddTeammateToTeamUseCase addTeammateToTeamUseCase;
     @Autowired
     CreateTeammateUseCase createTeammateUseCase;
     @Autowired
@@ -57,8 +59,8 @@ public class TeamController {
 
     @ApiOperation(value = "getAllTeams", notes = "Get all teams without any details about membership")
     @GetMapping({"/teams/"})
-    public ResponseEntity<Collection<TeamEntity>> getAllTeams() {
-        Collection<TeamEntity> res = getAllTeamsUseCase.execute();
+    public ResponseEntity<Collection<TeamDTO>> getAllTeams() {
+        Collection<TeamDTO> res = getAllTeamsUseCase.execute();
         return ResponseEntity.ok(res);
     }
 
@@ -93,15 +95,15 @@ public class TeamController {
 
     @ApiOperation(value = "getTeam", notes = "Get a team with its teammates")
     @GetMapping({"/teams/{teamId}/"})
-    public ResponseEntity<TeamEntity> getTeam(@PathVariable(value = "teamId") Long teamId) {
+    public ResponseEntity<TeamDTO> getTeam(@PathVariable(value = "teamId") Long teamId) {
         return ResponseEntity.ok(getTeamUseCase.execute(teamId));
     }
 
     @ApiOperation(value = "getAllTeammates", notes = "Get all teammates")
     @GetMapping({"/teammates/"})
-    public ResponseEntity<Collection<TeammateEntity>> getAllTeammates() {
+    public ResponseEntity<Collection<TeammateDTO>> getAllTeammates() {
 
-        Collection<TeammateEntity> res = getAllTeammatesUseCase.execute();
+        Collection<TeammateDTO> res = getAllTeammatesUseCase.execute();
         return ResponseEntity.ok(res);
     }
 
@@ -109,20 +111,22 @@ public class TeamController {
     @PostMapping({"/teammates/"})
     public ResponseEntity createTeammate(@Valid @RequestBody String name) {
 
-        TeammateEntity entity = createTeammateUseCase.execute(name);
+        TeammateDTO newMate = new TeammateDTO();
+        newMate.setName(name);
+        TeammateDTO res = createTeammateUseCase.execute(newMate);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
-                .buildAndExpand(entity.getId()).toUri();
+                .buildAndExpand(res.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 
     @ApiOperation(value = "createTeam", notes = "Create a new team with a name given in parameter")
     @PostMapping({"/teams/"})
     public ResponseEntity createTeam(@Valid @RequestBody String name) {
-        TeamEntity entity = createTeamUseCase.execute(name);
+        TeamDTO res = createTeamUseCase.execute(name);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
-                .buildAndExpand(entity.getId()).toUri();
+                .buildAndExpand(res.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 

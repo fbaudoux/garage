@@ -1,7 +1,7 @@
 package fr.crew.garage.infrastructure.rest.team;
 
-import fr.crew.garage.domain.skill.CreateSkillUseCase;
-import fr.crew.garage.domain.skill.entity.SkillEntity;
+import fr.crew.garage.api.skill.CreateSkillUseCase;
+import fr.crew.garage.api.skill.dto.SkillDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,9 @@ public class SkillController {
 
     @ApiOperation(value = "createSkill", notes = "Create a new skill with a name given in parameter, this skill could then be assigned to teammates")
     @PostMapping({"/skills/"})
-    public ResponseEntity<SkillEntity> createSkill(@Valid @RequestBody String name) {
+    public ResponseEntity<SkillDTO> createSkill(@Valid @RequestBody SkillDTO skillToCreate) {
 
-        SkillEntity newSkill = createSkillUseCase.execute(name);
+        SkillDTO newSkill = createSkillUseCase.execute(skillToCreate);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")

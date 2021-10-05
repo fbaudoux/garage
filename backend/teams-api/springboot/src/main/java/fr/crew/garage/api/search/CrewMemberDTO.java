@@ -1,9 +1,9 @@
-package fr.crew.garage.domain.search;
+package fr.crew.garage.api.search;
 
 import fr.crew.garage.api.skill.dto.SkillDTO;
 import fr.crew.garage.api.team.TeammateDTO;
 
-public class CrewMember {
+public class CrewMemberDTO {
 
     private TeammateDTO teammate;
     private SkillDTO skill;

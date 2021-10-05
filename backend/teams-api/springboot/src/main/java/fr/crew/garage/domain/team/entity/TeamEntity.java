@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity(
@@ -54,7 +55,7 @@ public class TeamEntity {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "membership", joinColumns = @JoinColumn(name = "teamid"), inverseJoinColumns = @JoinColumn(name = "teammateid"))
-    private Set<TeammateEntity> teammates;
+    private Set<TeammateEntity> teammates = new HashSet<>();
 
     public Set<TeammateEntity> getTeammates() {
         return teammates;

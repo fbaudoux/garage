@@ -1,16 +1,16 @@
-package fr.crew.garage.domain.search;
+package fr.crew.garage.api.search;
 
 import fr.crew.garage.api.skill.dto.SkillDTO;
 
 import java.util.List;
 
-public class CrewSearch {
+public class CrewSearchDTO {
 
     private final String name;
     private final List<SkillDTO> skills;
 
 
-    public CrewSearch(String name, List<SkillDTO> skills) {
+    public CrewSearchDTO(String name, List<SkillDTO> skills) {
         this.name = name;
         this.skills = skills;
     }

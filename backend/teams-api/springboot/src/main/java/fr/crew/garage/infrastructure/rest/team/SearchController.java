@@ -1,8 +1,8 @@
 package fr.crew.garage.infrastructure.rest.team;
 
+import fr.crew.garage.api.search.SearchUseCase;
 import fr.crew.garage.domain.search.Crew;
 import fr.crew.garage.domain.search.CrewSearch;
-import fr.crew.garage.domain.search.SearchUseCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 

@@ -5,12 +5,14 @@ import fr.crew.garage.domain.team.entity.TeammateEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity(
         name = "Skill"
@@ -33,7 +35,7 @@ public class SkillEntity {
     private String name;
 
 
-    @ManyToMany(mappedBy = "skills")
+    @ManyToMany(mappedBy = "skills", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<TeammateEntity> teammatesHavingSkill = new ArrayList<>();
 
@@ -47,6 +49,10 @@ public class SkillEntity {
 
     public void removeSkillToTeammates(TeammateEntity skilledTeammate) {
         this.teammatesHavingSkill.remove(skilledTeammate);
+    }
+
+    public void removeSkillToAllTeammates() {
+        this.teammatesHavingSkill = new ArrayList<>();
     }
 
     public SkillEntity() {
@@ -71,6 +77,23 @@ public class SkillEntity {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SkillEntity that = (SkillEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
 

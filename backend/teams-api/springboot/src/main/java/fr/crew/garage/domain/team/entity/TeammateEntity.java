@@ -12,7 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 
 @Entity(
@@ -41,13 +43,16 @@ public class TeammateEntity {
     @JoinTable(name = "teammate_skill",
             joinColumns = {@JoinColumn(name = "teammate_fk")},
             inverseJoinColumns = {@JoinColumn(name = "skill_fk")})
-    List<SkillEntity> skills;
+    Set<SkillEntity> skills;
 
-    public List<SkillEntity> getSkills() {
+    public Set<SkillEntity> getSkills() {
         return skills;
     }
 
     public void addSkill(SkillEntity skill) {
+        if (this.skills == null) {
+            this.skills = new HashSet<>();
+        }
         this.skills.add(skill);
         skill.giveSkillToTeammates(this);
     }
@@ -55,6 +60,10 @@ public class TeammateEntity {
     public void removeSkill(SkillEntity skill) {
         this.skills.remove(skill);
         skill.removeSkillToTeammates(this);
+    }
+
+    public void justRemoveSkill(SkillEntity skill) {
+        this.skills.remove(skill);
     }
 
 
@@ -75,5 +84,29 @@ public class TeammateEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        TeammateEntity that = (TeammateEntity) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+
+    @Override
+    public String toString() {
+        return name;
+
     }
 }

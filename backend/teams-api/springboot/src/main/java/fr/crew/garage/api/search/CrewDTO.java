@@ -1,13 +1,13 @@
-package fr.crew.garage.domain.search;
+package fr.crew.garage.api.search;
 
 import java.util.List;
 
-public class Crew {
+public class CrewDTO {
 
     private final String name;
-    List<CrewMember> members;
+    List<CrewMemberDTO> members;
 
-    public Crew(List<CrewMember> members, String name) {
+    public CrewDTO(List<CrewMemberDTO> members, String name) {
         this.members = members;
         this.name = name;
     }

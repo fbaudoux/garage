@@ -1,4 +1,4 @@
-package fr.crew.garage.domain.team.command;
+package fr.crew.garage.api.team;
 
 import fr.crew.garage.domain.team.entity.TeammateEntity;
 

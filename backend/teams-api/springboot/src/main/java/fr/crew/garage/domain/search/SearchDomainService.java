@@ -1,6 +1,9 @@
 package fr.crew.garage.domain.search;
 
+import fr.crew.garage.api.skill.dto.SkillDTO;
+import fr.crew.garage.api.team.TeammateDTO;
 import fr.crew.garage.domain.skill.entity.SkillEntity;
+import fr.crew.garage.domain.skill.repository.SkillRepository;
 import fr.crew.garage.domain.team.entity.TeamEntity;
 import fr.crew.garage.domain.team.entity.TeammateEntity;
 import fr.crew.garage.domain.team.repository.TeamRepository;
@@ -9,6 +12,7 @@ import org.chocosolver.solver.Model;
 import org.chocosolver.solver.Solution;
 import org.chocosolver.solver.constraints.extension.Tuples;
 import org.chocosolver.solver.variables.IntVar;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +34,12 @@ public class SearchDomainService {
     @Autowired
     TeamRepository teamRepository;
 
+    @Autowired
+    SkillRepository skillRepository;
+
+    @Autowired
+    ModelMapper modelMapper;
+
     public Collection<Crew> search(List<CrewSearch> crewSearches) {
 
         Collection<Crew> result = new ArrayList<>();
@@ -42,9 +52,9 @@ public class SearchDomainService {
             List<CrewMember> members = new ArrayList<>();
             List<IntVar> varsByCrew = new ArrayList<>();
             logger.info("The crew " + crew.getName() + " needs " + crew.getSkills().size() + " members");
-            for (SkillEntity skill : crew.getSkills()) {
+            for (SkillDTO skill : crew.getSkills()) {
                 // On crée une variable pour trouver chaque membre de l equipage
-                IntVar var = model.intVar("Q_" + crew.getName() + "_" + skill.getName(), possibleTeammateIdForSkill(skill));
+                IntVar var = model.intVar("Q_" + crew.getName() + "_" + skill.getName(), possibleTeammateIdForSkill(skillRepository.getById(skill.getId())));
                 vars.add(var);
                 varsByCrew.add(var);
 
@@ -65,7 +75,7 @@ public class SearchDomainService {
             varToConstraintByTeam = varsByCrew.toArray(varToConstraintByTeam);
             model.table(varToConstraintByTeam, allPossibles).post();
 
-            Crew resultCrew = new Crew(members);
+            Crew resultCrew = new Crew(members, crew.getName());
             result.add(resultCrew);
         }
         model.intVar("v0", 9, 45);
@@ -81,7 +91,7 @@ public class SearchDomainService {
             int currentId = solution.getIntVal(solverVariablesTable[i]);
             if (currentId != -1) {
                 TeammateEntity one = teammateRepository.getOne((long) currentId);
-                mapping.get(solverVariablesTable[i]).setTeammate(one);
+                mapping.get(solverVariablesTable[i]).setTeammate(modelMapper.map(one, TeammateDTO.class));
                 logger.info((solverVariablesTable[i].getName() + " : " + one.getName()));
             } else {
                 logger.info(solverVariablesTable[i].getName() + " : " + "NOBODY");
@@ -103,8 +113,8 @@ public class SearchDomainService {
         Model model = new Model("all permutation");
         List<IntVar> vars = new ArrayList<>();
 
-        for (SkillEntity skill : crewSearch.getSkills()) {
-            vars.add(model.intVar("Q_" + crewSearch.getName() + "_" + skill.getName(), possibleTeammateIdForSkill(skill, team)));
+        for (SkillDTO skill : crewSearch.getSkills()) {
+            vars.add(model.intVar("Q_" + crewSearch.getName() + "_" + skill.getName(), possibleTeammateIdForSkill(skillRepository.getById(skill.getId()), team)));
         }
 
         IntVar[] solverVariablesTable = new IntVar[vars.size()];
@@ -132,6 +142,10 @@ public class SearchDomainService {
 
     private int[] possibleTeammateIdForSkill(SkillEntity skillEntity, TeamEntity team) {
         logger.info("i m looking for skilled people to do  " + skillEntity.getName() + " in team " + team.getName());
+
+        logger.info(skillEntity.getTeammatesHavingSkill() + "");
+
+
         int[] result = skillEntity.getTeammatesHavingSkill().stream().filter(x -> team.getTeammates().contains(x)).mapToInt(x -> x.getId().intValue()).toArray();
         logger.info("i found " + result.length + " people");
         if (result.length == 0) {

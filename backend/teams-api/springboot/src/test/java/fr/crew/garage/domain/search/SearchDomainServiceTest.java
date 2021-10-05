@@ -1,15 +1,16 @@
 package fr.crew.garage.domain.search;
 
+import fr.crew.garage.api.skill.dto.SkillDTO;
 import fr.crew.garage.domain.skill.entity.SkillEntity;
 import fr.crew.garage.domain.skill.repository.SkillRepository;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
-import java.util.Collection;
-import java.util.List;
+import java.util.ArrayList;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -23,12 +24,24 @@ public class SearchDomainServiceTest {
     @Autowired
     SearchDomainService searchDomainService;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     @Test
     @Transactional
     void searchOneCrewOfOneTeammate() {
         SkillEntity skill = skillRepository.findByName("use the force");
-        CrewSearch crewSearch = new CrewSearch("someone who can use the force", List.of(skill));
-        searchDomainService.search(List.of(crewSearch));
+        SkillDTO dto = modelMapper.map(skill, SkillDTO.class);
+
+        ArrayList<SkillDTO> lstSkill = new ArrayList<>();
+        lstSkill.add(dto);
+
+        CrewSearch crewSearch = new CrewSearch("someone who can use the force", lstSkill);
+
+        ArrayList<CrewSearch> lstSearch = new ArrayList<>();
+        lstSearch.add(crewSearch);
+
+        searchDomainService.search(lstSearch);
     }
 
     @Test
@@ -36,8 +49,15 @@ public class SearchDomainServiceTest {
     void searchOneCrewOfTwoTeammate() {
         SkillEntity skill1 = skillRepository.findByName("drive a x-wing");
         SkillEntity skill2 = skillRepository.findByName("use the force");
-        CrewSearch crewSearch = new CrewSearch("someone who can drive a x-wing", List.of(skill1, skill2));
-        searchDomainService.search(List.of(crewSearch));
+        ArrayList<SkillDTO> lstSkill = new ArrayList<>();
+        lstSkill.add(modelMapper.map(skill1, SkillDTO.class));
+        lstSkill.add(modelMapper.map(skill2, SkillDTO.class));
+
+        CrewSearch crewSearch = new CrewSearch("someone who can drive a x-wing", lstSkill);
+
+        ArrayList<CrewSearch> lstSearch = new ArrayList<>();
+        lstSearch.add(crewSearch);
+        searchDomainService.search(lstSearch);
     }
 
 
@@ -45,17 +65,17 @@ public class SearchDomainServiceTest {
     @Transactional
     void searchOneCrewOfOneTeammateWithNoSolution() {
         SkillEntity skill = skillRepository.findByName("do impossible things");
-        CrewSearch crewSearch = new CrewSearch("someone who can do impossible things", List.of(skill));
-        searchDomainService.search(List.of(crewSearch));
-    }
 
-    @Test
-    @Transactional
-    void test2() {
-        SkillEntity skill1 = skillRepository.findByName("use the force");
-        SkillEntity skill2 = skillRepository.findByName("reduce size");
-        CrewSearch crewSearch = new CrewSearch("test", List.of(skill1, skill2));
-        Collection<Crew> search = searchDomainService.search(List.of(crewSearch));
+        ArrayList<SkillDTO> lstSkill = new ArrayList<>();
+        SkillDTO dto = modelMapper.map(skill, SkillDTO.class);
+        lstSkill.add(dto);
+
+        CrewSearch crewSearch = new CrewSearch("someone who can do impossible things", lstSkill);
+
+        ArrayList<CrewSearch> lstSearch = new ArrayList<>();
+        lstSearch.add(crewSearch);
+
+        searchDomainService.search(lstSearch);
     }
 
 

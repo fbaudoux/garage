@@ -1,9 +1,11 @@
 package fr.crew.garage.domain.team;
 
+import fr.crew.garage.api.team.TeammateDTO;
 import fr.crew.garage.domain.team.entity.TeamEntity;
 import fr.crew.garage.domain.team.entity.TeammateEntity;
 import fr.crew.garage.domain.team.repository.TeamRepository;
 import fr.crew.garage.domain.team.repository.TeammateRepository;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class TeamDomainService {
 
     @Autowired
     TeammateRepository teammateRepository;
+
+    @Autowired
+    ModelMapper modelMapper;
 
 
     public Collection<TeamEntity> getAllTeams() {
@@ -61,10 +66,9 @@ public class TeamDomainService {
         return teammateRepository.findAll();
     }
 
-    public TeammateEntity createTeammate(String name) {
-        logger.info("A new teammate is created : " + name);
-        TeammateEntity newTeammate = new TeammateEntity();
-        newTeammate.setName(name);
+    public TeammateEntity createTeammate(TeammateDTO teammateDTO) {
+        logger.info("A new teammate is created : " + teammateDTO.getName());
+        TeammateEntity newTeammate = modelMapper.map(teammateDTO, TeammateEntity.class);
         teammateRepository.save(newTeammate);
         return newTeammate;
     }

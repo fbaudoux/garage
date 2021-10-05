@@ -1,4 +1,4 @@
-package fr.crew.garage.domain.team.command;
+package fr.crew.garage.api.team;
 
 public class AddTeammateToTeamRequest {
 
@@ -13,7 +13,7 @@ public class AddTeammateToTeamRequest {
     public Long getTeammateId() {
         return teammateId;
     }
-    
+
     public Long getTeamId() {
         return teamId;
     }
