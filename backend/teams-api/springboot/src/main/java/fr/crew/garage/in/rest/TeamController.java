@@ -10,7 +10,6 @@ import fr.crew.garage.api.team.GetTeamUseCase;
 import fr.crew.garage.api.team.StreamAllTeamsUseCase;
 import fr.crew.garage.api.team.dto.TeamDTO;
 import fr.crew.garage.api.team.dto.TeammateDTO;
-import fr.crew.garage.domain.team.entity.TeamEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,8 +64,8 @@ public class TeamController {
 
     @ApiOperation(value = "getAllTeamsPageByPage", notes = "Get all teams without any details about membership")
     @GetMapping({"/teams/page/{pageNumber}"})
-    public ResponseEntity<Page<TeamEntity>> getAllTeamsPageByPage(@PathVariable(value = "pageNumber") Integer pageNumber) {
-        Page<TeamEntity> res = getAllTeamsPageByPageUseCase.execute(pageNumber);
+    public ResponseEntity<Page<TeamDTO>> getAllTeamsPageByPage(@PathVariable(value = "pageNumber") Integer pageNumber) {
+        Page<TeamDTO> res = getAllTeamsPageByPageUseCase.execute(pageNumber);
         return ResponseEntity.ok(res);
     }
 

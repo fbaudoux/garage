@@ -1,6 +1,5 @@
 package fr.crew.garage.domain.team;
 
-import fr.crew.garage.api.team.dto.TeammateDTO;
 import fr.crew.garage.domain.team.entity.TeamEntity;
 import fr.crew.garage.domain.team.entity.TeammateEntity;
 import fr.crew.garage.domain.team.repository.TeamRepository;
@@ -55,7 +54,6 @@ class TeamDomainServiceTest {
     @Transactional
     void getTeammatesForTeam() {
         TeamEntity team = teamRepository.findByName("Marvel");
-
         assertEquals(4, domainService.getTeammatesForTeam(team).size());
     }
 
@@ -69,18 +67,18 @@ class TeamDomainServiceTest {
     @Test
     @Transactional
     void createTeammate() {
-        TeammateDTO dto = new TeammateDTO();
-        dto.setName("guy");
-        TeammateEntity guy = domainService.createTeammate(dto);
+        TeammateEntity entity = new TeammateEntity();
+        entity.setName("guy");
+        TeammateEntity guy = domainService.createTeammate(entity);
         assertEquals(guy.getName(), "guy");
     }
 
     @Test
     @Transactional
     void addTeammateToTeam() {
-        TeammateDTO dto = new TeammateDTO();
-        dto.setName("John");
-        TeammateEntity john = domainService.createTeammate(dto);
+        TeammateEntity entity = new TeammateEntity();
+        entity.setName("John");
+        TeammateEntity john = domainService.createTeammate(entity);
         TeamEntity team = domainService.teamRepository.findByName("Marvel");
         domainService.addTeammateToTeam(john, team);
         Collection<TeammateEntity> teammatesForTeam = domainService.getTeammatesForTeam(team);

@@ -1,6 +1,5 @@
 package fr.crew.garage.domain.team;
 
-import fr.crew.garage.api.team.dto.TeammateDTO;
 import fr.crew.garage.domain.team.entity.TeamEntity;
 import fr.crew.garage.domain.team.entity.TeammateEntity;
 import fr.crew.garage.domain.team.repository.TeamRepository;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collection;
-import java.util.Random;
 
 
 @Service
@@ -46,9 +44,8 @@ public class TeamDomainService {
         return newTeam;
     }
 
-    public TeammateEntity createTeammate(TeammateDTO teammateDTO) {
-        logger.info("A new teammate is created : " + teammateDTO.getName());
-        TeammateEntity newTeammate = modelMapper.map(teammateDTO, TeammateEntity.class);
+    public TeammateEntity createTeammate(TeammateEntity newTeammate) {
+        logger.info("A new teammate is created : " + newTeammate.getName());
         teammateRepository.save(newTeammate);
         return newTeammate;
     }
@@ -59,27 +56,7 @@ public class TeamDomainService {
         teamRepository.addTeammateToTeam(teammate.getId(), team.getId());
     }
 
-    public void removeAll() {
-    }
-
     public Page<TeamEntity> getAllTeamsPageByPage(Integer pageNumber) {
         return teamRepository.findAll(PageRequest.of(pageNumber, 10));
-    }
-
-    public TeamEntity createTeamWithRandomName() {
-
-        int leftLimit = 48; // numeral '0'
-        int rightLimit = 122; // letter 'z'
-        int targetStringLength = 10;
-        Random random = new Random();
-
-        String generatedString = random.ints(leftLimit, rightLimit + 1)
-                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-                .limit(targetStringLength)
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
-
-
-        return this.createTeam(generatedString);
     }
 }

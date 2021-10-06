@@ -32,12 +32,6 @@ public class SkillDomainService {
     }
 
     @Transactional
-    public void removeSkill(String name) {
-        skillRepository.delete(skillRepository.findByName(name));
-    }
-
-
-    @Transactional
     public void addSkillToTeammate(SkillEntity skill, TeammateEntity teammate) {
         teammate.addSkill(skill);
         teammateRepository.save(teammate);

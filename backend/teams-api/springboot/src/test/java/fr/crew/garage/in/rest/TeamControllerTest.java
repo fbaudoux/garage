@@ -43,7 +43,6 @@ class TeamControllerTest {
 
     @AfterEach
     void tearDown() {
-        domainService.removeAll();
     }
 
     @Test

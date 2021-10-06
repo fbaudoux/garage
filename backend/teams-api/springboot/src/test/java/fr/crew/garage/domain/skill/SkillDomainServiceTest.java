@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -72,14 +71,5 @@ public class SkillDomainServiceTest {
         assertEquals(true, yoda.getSkills().contains(askill));
         domainService.removeSkillToTeammate(askill, yoda);
         assertEquals(false, yoda.getSkills().contains(askill));
-    }
-
-    @Test
-    @Order(5)
-    void removeSkill() {
-        assertNotNull(skillRepository.findByName("kung-fu"));
-        domainService.removeSkill("kung-fu");
-        assertNull(skillRepository.findByName("kung-fu"));
-
     }
 }
