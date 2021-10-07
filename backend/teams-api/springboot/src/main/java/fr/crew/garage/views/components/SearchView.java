@@ -9,14 +9,12 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.spring.annotation.SpringComponent;
-import com.vaadin.flow.spring.annotation.UIScope;
 import fr.crew.garage.api.search.SearchUseCase;
 import fr.crew.garage.api.search.dto.CrewDTO;
 import fr.crew.garage.api.search.dto.CrewSearchDTO;
 import fr.crew.garage.api.skill.GetAllSkillsUseCase;
 import fr.crew.garage.api.skill.dto.SkillDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import fr.crew.garage.views.components.listener.SkillChangeListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,9 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@SpringComponent
-@UIScope
-public class SearchEditor extends VerticalLayout implements KeyNotifier {
+
+public class SearchView extends VerticalLayout implements KeyNotifier, SkillChangeListener {
 
 
     TextArea result = new TextArea("Result:");
@@ -40,9 +37,11 @@ public class SearchEditor extends VerticalLayout implements KeyNotifier {
     Map<MultiComboBox, String> crewNames = new HashMap();
     int numberOfCrewToSearch = 1;
 
-    @Autowired
-    public SearchEditor(GetAllSkillsUseCase getAllSkillsUseCase, SearchUseCase searchUseCase) {
+    GetAllSkillsUseCase getAllSkillsUseCase;
 
+    public SearchView(GetAllSkillsUseCase getAllSkillsUseCase, SearchUseCase searchUseCase) {
+
+        this.getAllSkillsUseCase = getAllSkillsUseCase;
         this.searchUseCase = searchUseCase;
 
         allSkills = getAllSkillsUseCase.execute();
@@ -100,6 +99,9 @@ public class SearchEditor extends VerticalLayout implements KeyNotifier {
             box.setItems(lst);
         }
     }
-
-
+    
+    @Override
+    public void onSkillChanged() {
+        refreshSkill(getAllSkillsUseCase.execute());
+    }
 }
