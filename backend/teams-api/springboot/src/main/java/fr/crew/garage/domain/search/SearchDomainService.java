@@ -38,6 +38,9 @@ public class SearchDomainService {
     @Autowired
     ModelMapper modelMapper;
 
+
+    private int nobody = 0;
+
     public Collection<Crew> search(List<CrewSearch> crewSearches) {
 
         Collection<Crew> result = new ArrayList<>();
@@ -80,30 +83,26 @@ public class SearchDomainService {
 
         IntVar[] solverVariablesTable = new IntVar[vars.size()];
         solverVariablesTable = vars.toArray(solverVariablesTable);
-        model.allDifferent(solverVariablesTable).post();
+        model.allDifferentExcept0(solverVariablesTable).post();
 
         Solution solution = model.getSolver().findSolution();
-        logger.info("A SOLUTION");
-        for (int i = 0; i < solverVariablesTable.length; i++) {
 
-            int currentId = solution.getIntVal(solverVariablesTable[i]);
-            if (currentId != -1) {
-                TeammateEntity one = teammateRepository.getOne((long) currentId);
-                mapping.get(solverVariablesTable[i]).setTeammate(one);
-                logger.info((solverVariablesTable[i].getName() + " : " + one.getName()));
-            } else {
-                logger.info(solverVariablesTable[i].getName() + " : " + "NOBODY");
+        if(solution != null) {
+            logger.info("A SOLUTION");
+            for (int i = 0; i < solverVariablesTable.length; i++) {
+
+                int currentId = solution.getIntVal(solverVariablesTable[i]);
+                if (currentId != nobody) {
+                    TeammateEntity one = teammateRepository.getOne((long) currentId);
+                    mapping.get(solverVariablesTable[i]).setTeammate(one);
+                    logger.info((solverVariablesTable[i].getName() + " : " + one.getName()));
+                } else {
+                    logger.info(solverVariablesTable[i].getName() + " : " + "NOBODY");
+                }
             }
         }
 
         return result;
-    }
-
-    public void test(CrewSearch crewSearch) {
-        List<TeamEntity> all = teamRepository.findAll();
-        for (TeamEntity t : all) {
-            possibleResult(crewSearch, t);
-        }
     }
 
     public List<int[]> possibleResult(CrewSearch crewSearch, TeamEntity team) {
@@ -117,6 +116,7 @@ public class SearchDomainService {
 
         IntVar[] solverVariablesTable = new IntVar[vars.size()];
         solverVariablesTable = vars.toArray(solverVariablesTable);
+
         model.allDifferent(solverVariablesTable).post();
         List<Solution> allSolutions = model.getSolver().findAllSolutions();
         List<int[]> result = new ArrayList<>();
@@ -126,11 +126,11 @@ public class SearchDomainService {
             for (int i = 0; i < solverVariablesTable.length; i++) {
                 int currentId = s.getIntVal(solverVariablesTable[i]);
                 tuple[i] = currentId;
-                if (currentId != -1) {
+                if (currentId != nobody) {
                     TeammateEntity one = teammateRepository.getOne((long) currentId);
-                    logger.info((solverVariablesTable[i].getName() + " : " + one.getName()));
+                    logger.info( "possibleResult "+ (solverVariablesTable[i].getName() + " : " + one.getName()));
                 } else {
-                    logger.info(solverVariablesTable[i].getName() + " : " + "NOBODY");
+                    logger.info("possibleResult " + solverVariablesTable[i].getName() + " : " + "NOBODY");
                 }
             }
             result.add(tuple);
@@ -142,12 +142,10 @@ public class SearchDomainService {
         logger.info("i m looking for skilled people to do  " + skillEntity.getName() + " in team " + team.getName());
 
         logger.info(skillEntity.getTeammatesHavingSkill() + "");
-
-
         int[] result = skillEntity.getTeammatesHavingSkill().stream().filter(x -> team.getTeammates().contains(x)).mapToInt(x -> x.getId().intValue()).toArray();
         logger.info("i found " + result.length + " people");
         if (result.length == 0) {
-            result = new int[] {-1};
+            result = new int[] {nobody};
         }
         return result;
     }
@@ -158,7 +156,7 @@ public class SearchDomainService {
         int[] result = skillEntity.getTeammatesHavingSkill().stream().mapToInt(x -> x.getId().intValue()).toArray();
         logger.info("i found " + result.length + " people");
         if (result.length == 0) {
-            result = new int[] {-1};
+            result = new int[] {nobody};
         }
         return result;
     }

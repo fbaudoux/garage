@@ -1,0 +1,25 @@
+<button (click)="addSearch()">Add new search</button>
+
+<div *ngFor="let search of searchs">
+  <h3>{{search.name}}</h3>
+  <ng-select
+    [items]="skills"
+    bindLabel="name"
+    placeholder="Select skills"
+    appendTo="body"
+    [multiple]="true"
+    [(ngModel)]="search.skills"
+  >
+  </ng-select>
+</div>
+
+<button (click)="search()">Search</button>
+
+<div *ngFor="let crew of searchResult">
+  <h3>{{crew.name}}</h3>
+  <ul>
+    <li *ngFor="let member of crew.members">
+      {{member.skill.name}}  :  <span *ngIf="member.teammate"> {{member.teammate.name}} </span>
+    </li>
+  </ul>
+</div>

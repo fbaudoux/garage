@@ -1,0 +1,14 @@
+<h2>My teams</h2>
+<ul class="heroes">
+  <li *ngFor="let hero of teams">
+    <a routerLink="/detail/{{hero.id}}">
+      <span class="badge">{{hero.id}}</span> {{hero.name}}
+    </a>
+  </li>
+</ul>
+
+<button (click)="addTeam()">Add a team</button>
+
+
+
+

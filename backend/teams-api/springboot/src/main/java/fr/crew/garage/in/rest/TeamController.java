@@ -1,13 +1,8 @@
 package fr.crew.garage.in.rest;
 
-import fr.crew.garage.api.team.AddTeammateToTeamUseCase;
-import fr.crew.garage.api.team.CreateTeamUseCase;
-import fr.crew.garage.api.team.CreateTeammateUseCase;
-import fr.crew.garage.api.team.GetAllTeammatesUseCase;
-import fr.crew.garage.api.team.GetAllTeamsPageByPageUseCase;
-import fr.crew.garage.api.team.GetAllTeamsUseCase;
-import fr.crew.garage.api.team.GetTeamUseCase;
-import fr.crew.garage.api.team.StreamAllTeamsUseCase;
+import fr.crew.garage.api.skill.AddSkillToTeammateUseCase;
+import fr.crew.garage.api.skill.dto.SkillDTO;
+import fr.crew.garage.api.team.*;
 import fr.crew.garage.api.team.dto.TeamDTO;
 import fr.crew.garage.api.team.dto.TeammateDTO;
 import io.swagger.annotations.Api;
@@ -15,11 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -53,6 +44,10 @@ public class TeamController {
     CreateTeammateUseCase createTeammateUseCase;
     @Autowired
     CreateTeamUseCase createTeamUseCase;
+    @Autowired
+    GetTeammateUseCase getTeammateUseCase;
+    @Autowired
+    AddSkillToTeammateUseCase addSkillToTeammateUseCase;
 
 
     @ApiOperation(value = "getAllTeams", notes = "Get all teams without any details about membership")
@@ -105,6 +100,12 @@ public class TeamController {
         return ResponseEntity.ok(res);
     }
 
+    @ApiOperation(value = "getTeammate", notes = "Get a teammate with its skills")
+    @GetMapping({"/teammates/{teammateId}/"})
+    public ResponseEntity<TeammateDTO> getTeammate(@PathVariable(value = "teammateId") Long teammateId) {
+        return ResponseEntity.ok(getTeammateUseCase.execute(teammateId));
+    }
+
     @ApiOperation(value = "createTeammate", notes = "Create a new teammates with a name given in parameter")
     @PostMapping({"/teammates/"})
     public ResponseEntity createTeammate(@Valid @RequestBody String name) {
@@ -138,6 +139,12 @@ public class TeamController {
         team.setId(teamId);
 
         addTeammateToTeamUseCase.execute(mate, team);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping({"/teammates/"})
+    public ResponseEntity updateTeammate(@Valid @RequestBody TeammateDTO teammateDTO) {
+        createTeammateUseCase.execute(teammateDTO);
         return ResponseEntity.ok().build();
     }
 

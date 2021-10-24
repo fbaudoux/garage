@@ -1,0 +1,23 @@
+<div *ngIf="team">
+
+  <h2>{{team.name | uppercase}} Details</h2>
+  <div><span>id: </span>{{team.id}}</div>
+  <div>
+    <label for="team-name">Team name: </label>
+    <input id="team-name" [(ngModel)]="team.name" placeholder="name">
+  </div>
+
+  <ul class="heroes">
+    <ng-container *ngFor="let mate of team.teammates">
+      <li>
+        <a routerLink="/teammate/{{mate.id}}">
+        <span class="badge">{{mate.id}}</span>{{mate.name}}
+        </a></li>
+      <ul>
+        <li *ngFor="let skill of mate.skills">{{skill.name}}  </li>
+      </ul>
+      </ng-container>
+  </ul>
+
+  <button (click)="goBack()">Go back</button>
+</div>

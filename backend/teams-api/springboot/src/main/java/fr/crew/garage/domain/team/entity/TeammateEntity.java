@@ -39,7 +39,7 @@ public class TeammateEntity {
     private String name;
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "teammate_skill",
             joinColumns = {@JoinColumn(name = "teammate_fk")},
             inverseJoinColumns = {@JoinColumn(name = "skill_fk")})
@@ -47,6 +47,10 @@ public class TeammateEntity {
 
     public Set<SkillEntity> getSkills() {
         return skills;
+    }
+
+    public void setSkills(Set<SkillEntity> skills){
+        this.skills = skills;
     }
 
     public void addSkill(SkillEntity skill) {

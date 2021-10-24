@@ -1,0 +1,24 @@
+<div *ngIf="teammate">
+
+  <h2>{{teammate.name | uppercase}} Details</h2>
+  <div><span>id: </span>{{teammate.id}}</div>
+  <div>
+    <label for="team-name">Team name: </label>
+    <input id="team-name" [(ngModel)]="teammate.name" placeholder="name">
+  </div>
+
+  <ng-select
+    [items]="skills"
+    bindLabel="name"
+    placeholder="Select skills"
+    appendTo="body"
+    [multiple]="true"
+    [(ngModel)]="teammate.skills"
+    (change)="onSkillsChange()"
+  >
+  </ng-select>
+
+
+  <button (click)="goBack()">Go back</button>
+</div>
+
