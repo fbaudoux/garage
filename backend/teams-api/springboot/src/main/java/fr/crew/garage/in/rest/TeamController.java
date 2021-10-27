@@ -121,8 +121,8 @@ public class TeamController {
 
     @ApiOperation(value = "createTeam", notes = "Create a new team with a name given in parameter")
     @PostMapping({"/teams/"})
-    public ResponseEntity createTeam(@Valid @RequestBody String name) {
-        TeamDTO res = createTeamUseCase.execute(name);
+    public ResponseEntity createTeam(@Valid @RequestBody TeamDTO teamDTO) {
+        TeamDTO res = createTeamUseCase.execute(teamDTO);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(res.getId()).toUri();
@@ -143,9 +143,13 @@ public class TeamController {
     }
 
     @PutMapping({"/teammates/"})
-    public ResponseEntity updateTeammate(@Valid @RequestBody TeammateDTO teammateDTO) {
-        createTeammateUseCase.execute(teammateDTO);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<TeammateDTO> updateTeammate(@Valid @RequestBody TeammateDTO teammateDTO) {
+        return ResponseEntity.ok(createTeammateUseCase.execute(teammateDTO));
+    }
+
+    @PutMapping({"/teams/"})
+    public ResponseEntity<TeamDTO> updateTeam(@Valid @RequestBody TeamDTO teamDTO) {
+        return ResponseEntity.ok(createTeamUseCase.execute(teamDTO));
     }
 
 }

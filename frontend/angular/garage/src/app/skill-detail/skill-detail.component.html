@@ -1,0 +1,23 @@
+<div *ngIf="skill"  class="main-div">
+
+  <mat-card class="skill-detail-card">
+    <mat-card-header>
+      <mat-card-title>{{skill.name | uppercase}}</mat-card-title>
+    </mat-card-header>
+
+
+
+    <mat-form-field appearance="standard">
+      <mat-label> Enter a name </mat-label>
+      <input matInput  [(ngModel)]="skill.name">
+    </mat-form-field>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="goBack()">Go back</button>
+      <button mat-raised-button color="primary" (click)="updateSkill()">Save</button>
+    </mat-card-actions>
+
+
+  </mat-card>
+</div>
+

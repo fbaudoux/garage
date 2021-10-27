@@ -1,14 +1,25 @@
-<h2>My teams</h2>
-<ul class="heroes">
-  <li *ngFor="let hero of teams">
+<div class="main-div">
+<mat-card class="team-card">
+  <mat-card-header>
+    <mat-card-title>The teams</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+
+<mat-list>
+  <mat-list-item *ngFor="let hero of teams">
     <a routerLink="/detail/{{hero.id}}">
-      <span class="badge">{{hero.id}}</span> {{hero.name}}
+      {{hero.name}}
     </a>
-  </li>
-</ul>
+  </mat-list-item>
+</mat-list>
 
-<button (click)="addTeam()">Add a team</button>
+    </mat-card-content>
 
+  <mat-card-actions>
+    <a routerLink="/detail/"><button mat-raised-button color="primary" (click)="addTeam()">Add a team</button></a>
+    </mat-card-actions>
 
-
+</mat-card>
+</div>
 

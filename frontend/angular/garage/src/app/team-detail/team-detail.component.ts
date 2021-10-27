@@ -25,12 +25,20 @@ export class TeamDetailComponent implements OnInit {
 
   getTeam(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.teamService.getTeam(id)
-      .subscribe(team => this.team = team);
+    if(id) {
+      this.teamService.getTeam(id)
+        .subscribe(team => this.team = team);
+    }
+    else{
+      this.team = {id: 0, name: "", teammates: []};
+    }
   }
 
   goBack(): void {
     this.location.back();
   }
 
+  saveTeam() {
+    this.teamService.updateTeam(this.team).subscribe(team => this.team = team );
+  }
 }

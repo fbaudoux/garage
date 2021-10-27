@@ -4,6 +4,7 @@ import {Skill} from "../teams/Skill";
 import {SkillService} from "../skill.service";
 import {SearchService} from "../search.service";
 import {Crew} from "./Crew";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-search',
@@ -28,7 +29,7 @@ export class SearchComponent implements OnInit {
   }
 
   addSearch() {
-    let searchName = "search part#" + (this.searchs.length+1);
+    let searchName = "Crew#" + (this.searchs.length+1);
     let newSearch:CrewSearch = {name:searchName , skills:[]};
     this.searchs.push(newSearch);
   }

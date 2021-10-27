@@ -39,7 +39,7 @@ public class TeammateEntity {
     private String name;
 
 
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "teammate_skill",
             joinColumns = {@JoinColumn(name = "teammate_fk")},
             inverseJoinColumns = {@JoinColumn(name = "skill_fk")})

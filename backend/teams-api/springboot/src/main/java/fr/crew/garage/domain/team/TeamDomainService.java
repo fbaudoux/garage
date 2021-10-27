@@ -1,5 +1,6 @@
 package fr.crew.garage.domain.team;
 
+import fr.crew.garage.api.team.dto.TeamDTO;
 import fr.crew.garage.domain.team.entity.TeamEntity;
 import fr.crew.garage.domain.team.entity.TeammateEntity;
 import fr.crew.garage.domain.team.repository.TeamRepository;
@@ -36,18 +37,14 @@ public class TeamDomainService {
         return teammateRepository.findTeamMembers(aTeam.getId());
     }
 
-    public TeamEntity createTeam(String name) {
-        logger.info("A new team is created : " + name);
-        TeamEntity newTeam = new TeamEntity();
-        newTeam.setName(name);
-        teamRepository.save(newTeam);
-        return newTeam;
+    public TeamEntity createTeam(TeamEntity team) {
+        logger.info("A new team is created : " +team.getName());
+        return teamRepository.save(team);
     }
 
     public TeammateEntity createTeammate(TeammateEntity newTeammate) {
-        logger.info("A new teammate is created : " + newTeammate.getName());
-        teammateRepository.save(newTeammate);
-        return newTeammate;
+            logger.info("A new teammate is created : " + newTeammate.getName());
+        return teammateRepository.save(newTeammate);
     }
 
     @Transactional

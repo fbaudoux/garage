@@ -1,5 +1,6 @@
 package fr.crew.garage.domain.team;
 
+import fr.crew.garage.api.team.dto.TeamDTO;
 import fr.crew.garage.domain.team.entity.TeamEntity;
 import fr.crew.garage.domain.team.entity.TeammateEntity;
 import fr.crew.garage.domain.team.repository.TeamRepository;
@@ -60,7 +61,9 @@ class TeamDomainServiceTest {
     @Test
     @Transactional
     void createTeam() {
-        TeamEntity t = domainService.createTeam("bar team");
+        TeamEntity teamDTO = new TeamEntity();
+        teamDTO.setName("bar team");
+        TeamEntity t = domainService.createTeam(teamDTO);
         assertEquals(t.getName(), "bar team");
     }
 

@@ -21,5 +21,4 @@ export class SkillsComponent implements OnInit {
   getSkills(): void {
     this.skillService.getSkills().subscribe(skills => this.skills = skills);
   }
-
 }

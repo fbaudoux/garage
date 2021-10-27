@@ -1,5 +1,22 @@
-<ul class="heroes">
-  <li *ngFor="let skill of skills">
-      <span class="badge">{{skill.id}}</span> {{skill.name}}
-  </li>
-</ul>
+<div class="main-div">
+<mat-card class="skill-card">
+  <mat-card-header>
+    <mat-card-title>All skills</mat-card-title>
+    <mat-card-subtitle>the skills are assigned to teammates</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+
+<mat-list >
+  <mat-list-item *ngFor="let skill of skills">
+    <a routerLink="/skill/{{skill.id}}"> {{skill.name}} </a>
+  </mat-list-item>
+</mat-list>
+    </mat-card-content>
+  <mat-card-actions>
+    <a routerLink="/skill"><button mat-raised-button color="primary">Add a skill</button></a>
+  </mat-card-actions>
+</mat-card>
+</div>
+
+

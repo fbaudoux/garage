@@ -2,20 +2,35 @@
 h1 {
   margin-bottom: 0;
 }
-nav a {
-  padding: 1rem;
-  text-decoration: none;
-  margin-top: 10px;
-  display: inline-block;
-  background-color: #e8e8e8;
-  color: #3d3d3d;
-  border-radius: 4px;
+.menuItem {
+  padding-left: 8px;
 }
 
-nav a:hover {
-  color: white;
-  background-color: #42545C;
+::ng-deep .mat-card{
+
+  border-radius: 10px !important;
+  border: 1px solid #949292;
+  margin : 5px;
 }
-nav a.active {
-  background-color: black;
+
+
+.main-div{
+  display: flex;
+  justify-content: center;
 }
+
+::ng-deep .mat-form-field {
+  width: 500px !important;
+}
+::ng-deep .mat-label {
+  width: 500px !important;
+}
+::ng-deep .mat-select {
+  width: 500px !important;
+}
+
+::ng-deep .mat-option {
+  width: 500px !important;
+}
+
+

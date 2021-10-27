@@ -37,8 +37,8 @@ class TeamControllerTest {
     @BeforeEach
     void setUp() {
 
-        foo_team = domainService.createTeam("foo_team");
-        bar_team = domainService.createTeam("bar_team");
+       // foo_team = domainService.createTeam("foo_team");
+        //bar_team = domainService.createTeam("bar_team");
     }
 
     @AfterEach

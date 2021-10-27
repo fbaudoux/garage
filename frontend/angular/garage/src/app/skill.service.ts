@@ -39,10 +39,17 @@ export class SkillService {
     };
   }
 
-  addSkillToTeammate(value:number, id: number | undefined) {
-     const url = "http://localhost:8082/teammates/"+id+"/skills/"+value;
-    return this.http.post<any>(url,null).pipe(
-      catchError(this.handleError<Skill[]>('getSkills', []))
+  getSkill(id: number) : Observable<Skill>{
+    return this.http.get<Skill>(this.skillsUrl+id).pipe(
+      catchError(this.handleError<Skill>('getSkills', undefined))
     );
   }
+
+  updateSkill(skill: Skill | undefined) : Observable<Skill> {
+    return this.http.post<Skill>(this.skillsUrl, skill).pipe(
+      catchError(this.handleError<Skill>('updateSkill', undefined))
+    );
+  }
+
+
 }

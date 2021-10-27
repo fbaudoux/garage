@@ -1,15 +1,7 @@
 package fr.crew.garage.domain.team.entity;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -53,7 +45,11 @@ public class TeamEntity {
     }
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    public void setTeammates(Set<TeammateEntity> teammates) {
+        this.teammates = teammates;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
     @JoinTable(name = "membership", joinColumns = @JoinColumn(name = "teamid"), inverseJoinColumns = @JoinColumn(name = "teammateid"))
     private Set<TeammateEntity> teammates = new HashSet<>();
 

@@ -3,6 +3,7 @@ import { Team } from './teams/Team';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
+import {Teammate} from "./teams/Teammate";
 
 
 @Injectable({
@@ -51,4 +52,10 @@ export class TeamService {
   }
 
 
+  updateTeam(team: Team | undefined) : Observable<Team> {
+    return  this.http.put<Team>(this.teamsUrl,team).pipe(
+      catchError(this.handleError<Team>('updateTeam', undefined))
+    );
+
+  }
 }

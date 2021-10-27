@@ -1,0 +1,10 @@
+.search-card {
+  min-width: 1080px;
+
+}
+
+.main-div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

@@ -1,23 +1,36 @@
-<div *ngIf="team">
+<div *ngIf="team" class="main-div">
+  <mat-card class="team-detail-card">
 
-  <h2>{{team.name | uppercase}} Details</h2>
-  <div><span>id: </span>{{team.id}}</div>
-  <div>
-    <label for="team-name">Team name: </label>
-    <input id="team-name" [(ngModel)]="team.name" placeholder="name">
-  </div>
+    <mat-card-header>
+      <mat-form-field appearance="standard">
+        <mat-label> Enter a name </mat-label>
+        <input matInput  [(ngModel)]="team.name" >
+      </mat-form-field>
+    </mat-card-header>
 
-  <ul class="heroes">
-    <ng-container *ngFor="let mate of team.teammates">
-      <li>
-        <a routerLink="/teammate/{{mate.id}}">
-        <span class="badge">{{mate.id}}</span>{{mate.name}}
-        </a></li>
-      <ul>
-        <li *ngFor="let skill of mate.skills">{{skill.name}}  </li>
-      </ul>
-      </ng-container>
-  </ul>
+    <mat-card-content>
+      <mat-list>
+        <ng-container *ngFor="let mate of team.teammates">
+        <mat-list-item >
+          <a routerLink="/teammate/{{mate.id}}">{{mate.name}}</a>
+        </mat-list-item>
+          <div style="padding-left: 30px ; margin-bottom: 10px">
+          Skills :
+          <ng-container *ngFor="let skill of mate.skills">
+              {{skill.name}} ,
+          </ng-container>
+          </div>
+        </ng-container>
+      </mat-list>
+    </mat-card-content>
 
-  <button (click)="goBack()">Go back</button>
+    <mat-card-actions>
+      <button mat-raised-button color="secondary" (click)="goBack()">Go back</button>
+      <button mat-raised-button color="primary" (click)="saveTeam()">Save</button>
+<ng-container *ngIf="team.id !=0">
+      <a routerLink="/teams/{{team.id}}/teammate"><button mat-raised-button color="primary">Add teammate</button></a>
+</ng-container>
+    </mat-card-actions>
+
+  </mat-card>
 </div>
