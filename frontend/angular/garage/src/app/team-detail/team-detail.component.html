@@ -27,6 +27,7 @@
     <mat-card-actions>
       <button mat-raised-button color="secondary" (click)="goBack()">Go back</button>
       <button mat-raised-button color="primary" (click)="saveTeam()">Save</button>
+      <button mat-raised-button color="primary" (click)="deleteTeam()">Delete</button>
 <ng-container *ngIf="team.id !=0">
       <a routerLink="/teams/{{team.id}}/teammate"><button mat-raised-button color="primary">Add teammate</button></a>
 </ng-container>

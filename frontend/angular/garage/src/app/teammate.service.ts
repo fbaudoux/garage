@@ -3,6 +3,7 @@ import {Observable, of} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {Teammate} from "./teams/Teammate";
 import {HttpClient} from "@angular/common/http";
+import {Team} from "./teams/Team";
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,12 @@ export class TeammateService {
   updateTeammate(teammate: Teammate | undefined): Observable<Teammate>{
     return  this.http.put<Teammate>(this.teammatesUrl,teammate).pipe(
       catchError(this.handleError<Teammate>('updateTeammate', undefined))
+    );
+  }
+
+  deleteTeammate(teammate: Teammate) {
+    return  this.http.delete<Teammate>(this.teammatesUrl+teammate.id).pipe(
+      catchError(this.handleError<Teammate>('deleteTeammate', undefined))
     );
   }
 }

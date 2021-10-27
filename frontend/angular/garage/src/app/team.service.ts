@@ -58,4 +58,10 @@ export class TeamService {
     );
 
   }
+
+  deleteTeam(team: Team) {
+    return  this.http.delete<Team>(this.teamsUrl+team.id).pipe(
+      catchError(this.handleError<Team>('deleteTeam', undefined))
+    );
+  }
 }

@@ -37,4 +37,9 @@ export class SearchComponent implements OnInit {
   search() {
       this.searcService.search(this.searchs).subscribe(crews => this.searchResult = crews)
   }
+
+  removeSearch(search: CrewSearch) {
+    const index: number = this.searchs.indexOf(search);
+    this.searchs.splice(index, 1);
+  }
 }

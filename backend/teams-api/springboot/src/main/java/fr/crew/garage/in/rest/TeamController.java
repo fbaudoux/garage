@@ -48,6 +48,10 @@ public class TeamController {
     GetTeammateUseCase getTeammateUseCase;
     @Autowired
     AddSkillToTeammateUseCase addSkillToTeammateUseCase;
+    @Autowired
+    DeleteTeammateUseCase deleteTeammateUseCase;
+    @Autowired
+    DeleteTeamUseCase deleteTeamUseCase;
 
 
     @ApiOperation(value = "getAllTeams", notes = "Get all teams without any details about membership")
@@ -151,5 +155,22 @@ public class TeamController {
     public ResponseEntity<TeamDTO> updateTeam(@Valid @RequestBody TeamDTO teamDTO) {
         return ResponseEntity.ok(createTeamUseCase.execute(teamDTO));
     }
+
+    @DeleteMapping({"/teammates/{teammateId}"})
+    public ResponseEntity<TeammateDTO> deleteTeammate(@PathVariable(value = "teammateId") Long teammateId) {
+        TeammateDTO dto = new TeammateDTO();
+        dto.setId(teammateId);
+        deleteTeammateUseCase.execute(dto);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping({"/teams/{teamId}"})
+    public ResponseEntity<TeammateDTO> deleteTeam(@PathVariable(value = "teamId") Long teamId) {
+        TeamDTO dto = new TeamDTO();
+        dto.setId(teamId);
+        deleteTeamUseCase.execute(dto);
+        return ResponseEntity.ok().build();
+    }
+
 
 }

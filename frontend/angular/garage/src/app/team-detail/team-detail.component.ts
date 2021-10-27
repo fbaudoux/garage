@@ -41,4 +41,11 @@ export class TeamDetailComponent implements OnInit {
   saveTeam() {
     this.teamService.updateTeam(this.team).subscribe(team => this.team = team );
   }
+
+  deleteTeam() {
+    if(this.team) {
+      console.log("delete");
+      this.teamService.deleteTeam(this.team).subscribe(result => this.location.back());
+    }
+  }
 }
