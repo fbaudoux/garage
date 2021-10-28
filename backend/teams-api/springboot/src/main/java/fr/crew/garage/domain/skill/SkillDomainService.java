@@ -6,7 +6,6 @@ import fr.crew.garage.domain.team.entity.TeammateEntity;
 import fr.crew.garage.domain.team.repository.TeammateRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,11 +15,16 @@ public class SkillDomainService {
 
     Logger logger = LoggerFactory.getLogger(SkillDomainService.class);
 
-    @Autowired
+    final
     SkillRepository skillRepository;
 
-    @Autowired
+    final
     TeammateRepository teammateRepository;
+
+    public SkillDomainService(SkillRepository skillRepository, TeammateRepository teammateRepository) {
+        this.skillRepository = skillRepository;
+        this.teammateRepository = teammateRepository;
+    }
 
     @Transactional
     public SkillEntity createSkill(String name) {

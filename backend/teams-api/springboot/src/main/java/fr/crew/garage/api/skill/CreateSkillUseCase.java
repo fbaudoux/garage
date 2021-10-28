@@ -3,17 +3,21 @@ package fr.crew.garage.api.skill;
 import fr.crew.garage.api.skill.dto.SkillDTO;
 import fr.crew.garage.domain.skill.SkillDomainService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CreateSkillUseCase {
 
-    @Autowired
+    final
     SkillDomainService domainService;
 
-    @Autowired
+    final
     ModelMapper modelMapper;
+
+    public CreateSkillUseCase(SkillDomainService domainService, ModelMapper modelMapper) {
+        this.domainService = domainService;
+        this.modelMapper = modelMapper;
+    }
 
     public SkillDTO execute(SkillDTO skillDTO) {
 

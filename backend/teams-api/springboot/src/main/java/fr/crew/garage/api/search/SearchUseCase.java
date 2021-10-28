@@ -6,7 +6,6 @@ import fr.crew.garage.domain.search.Crew;
 import fr.crew.garage.domain.search.CrewSearch;
 import fr.crew.garage.domain.search.SearchDomainService;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -17,11 +16,16 @@ import java.util.stream.Collectors;
 @Component
 public class SearchUseCase {
 
-    @Autowired
+    final
     SearchDomainService domainService;
 
-    @Autowired
+    final
     ModelMapper modelMapper;
+
+    public SearchUseCase(ModelMapper modelMapper, SearchDomainService domainService) {
+        this.modelMapper = modelMapper;
+        this.domainService = domainService;
+    }
 
     @Transactional
     public List<CrewDTO> execute(List<CrewSearchDTO> crewSearches) {

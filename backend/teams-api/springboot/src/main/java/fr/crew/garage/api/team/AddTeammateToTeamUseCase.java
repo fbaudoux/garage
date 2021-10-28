@@ -5,7 +5,6 @@ import fr.crew.garage.api.team.dto.TeammateDTO;
 import fr.crew.garage.domain.team.TeamDomainService;
 import fr.crew.garage.domain.team.repository.TeamRepository;
 import fr.crew.garage.domain.team.repository.TeammateRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;

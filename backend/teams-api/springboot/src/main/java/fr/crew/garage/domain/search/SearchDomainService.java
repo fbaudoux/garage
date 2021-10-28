@@ -13,7 +13,6 @@ import org.chocosolver.solver.variables.IntVar;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,20 +25,27 @@ public class SearchDomainService {
 
     Logger logger = LoggerFactory.getLogger(SearchDomainService.class);
 
-    @Autowired
+    final
     TeammateRepository teammateRepository;
 
-    @Autowired
+    final
     TeamRepository teamRepository;
 
-    @Autowired
+    final
     SkillRepository skillRepository;
 
-    @Autowired
+    final
     ModelMapper modelMapper;
 
 
     private int nobody = 0;
+
+    public SearchDomainService(TeammateRepository teammateRepository, TeamRepository teamRepository, SkillRepository skillRepository, ModelMapper modelMapper) {
+        this.teammateRepository = teammateRepository;
+        this.teamRepository = teamRepository;
+        this.skillRepository = skillRepository;
+        this.modelMapper = modelMapper;
+    }
 
     public Collection<Crew> search(List<CrewSearch> crewSearches) {
 
@@ -87,7 +93,7 @@ public class SearchDomainService {
 
         Solution solution = model.getSolver().findSolution();
 
-        if(solution != null) {
+        if (solution != null) {
             logger.info("A SOLUTION");
             for (int i = 0; i < solverVariablesTable.length; i++) {
 
@@ -128,7 +134,7 @@ public class SearchDomainService {
                 tuple[i] = currentId;
                 if (currentId != nobody) {
                     TeammateEntity one = teammateRepository.getOne((long) currentId);
-                    logger.info( "possibleResult "+ (solverVariablesTable[i].getName() + " : " + one.getName()));
+                    logger.info("possibleResult " + (solverVariablesTable[i].getName() + " : " + one.getName()));
                 } else {
                     logger.info("possibleResult " + solverVariablesTable[i].getName() + " : " + "NOBODY");
                 }
@@ -145,7 +151,7 @@ public class SearchDomainService {
         int[] result = skillEntity.getTeammatesHavingSkill().stream().filter(x -> team.getTeammates().contains(x)).mapToInt(x -> x.getId().intValue()).toArray();
         logger.info("i found " + result.length + " people");
         if (result.length == 0) {
-            result = new int[] {nobody};
+            result = new int[]{nobody};
         }
         return result;
     }
@@ -156,7 +162,7 @@ public class SearchDomainService {
         int[] result = skillEntity.getTeammatesHavingSkill().stream().mapToInt(x -> x.getId().intValue()).toArray();
         logger.info("i found " + result.length + " people");
         if (result.length == 0) {
-            result = new int[] {nobody};
+            result = new int[]{nobody};
         }
         return result;
     }

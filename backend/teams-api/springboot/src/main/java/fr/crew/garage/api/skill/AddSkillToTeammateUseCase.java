@@ -5,7 +5,6 @@ import fr.crew.garage.api.team.dto.TeammateDTO;
 import fr.crew.garage.domain.skill.SkillDomainService;
 import fr.crew.garage.domain.skill.repository.SkillRepository;
 import fr.crew.garage.domain.team.repository.TeammateRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -13,14 +12,20 @@ import javax.transaction.Transactional;
 @Component
 public class AddSkillToTeammateUseCase {
 
-    @Autowired
+    final
     SkillDomainService domainService;
 
-    @Autowired
+    final
     SkillRepository skillRepository;
 
-    @Autowired
+    final
     TeammateRepository teammateRepository;
+
+    public AddSkillToTeammateUseCase(SkillDomainService domainService, SkillRepository skillRepository, TeammateRepository teammateRepository) {
+        this.domainService = domainService;
+        this.skillRepository = skillRepository;
+        this.teammateRepository = teammateRepository;
+    }
 
     @Transactional
     public void execute(SkillDTO skill, TeammateDTO mate) {

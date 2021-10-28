@@ -1,22 +1,24 @@
 package fr.crew.garage.api.team;
 
-import fr.crew.garage.api.team.dto.TeamDTO;
 import fr.crew.garage.api.team.dto.TeammateDTO;
-import fr.crew.garage.domain.team.repository.TeamRepository;
 import fr.crew.garage.domain.team.repository.TeammateRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 
 @Component
 public class GetTeammateUseCase {
-    @Autowired
+    final
     TeammateRepository teammateRepository;
 
-    @Autowired
+    final
     ModelMapper modelMapper;
+
+    public GetTeammateUseCase(TeammateRepository teammateRepository, ModelMapper modelMapper) {
+        this.teammateRepository = teammateRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Transactional
     public TeammateDTO execute(Long teammateId) {

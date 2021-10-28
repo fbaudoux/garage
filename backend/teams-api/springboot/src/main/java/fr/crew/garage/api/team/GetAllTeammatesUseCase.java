@@ -3,7 +3,6 @@ package fr.crew.garage.api.team;
 import fr.crew.garage.api.team.dto.TeammateDTO;
 import fr.crew.garage.domain.team.repository.TeammateRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -12,11 +11,16 @@ import java.util.stream.Collectors;
 @Component
 public class GetAllTeammatesUseCase {
 
-    @Autowired
+    final
     TeammateRepository teammateRepository;
 
-    @Autowired
+    final
     ModelMapper modelMapper;
+
+    public GetAllTeammatesUseCase(TeammateRepository teammateRepository, ModelMapper modelMapper) {
+        this.teammateRepository = teammateRepository;
+        this.modelMapper = modelMapper;
+    }
 
     public Collection<TeammateDTO> execute() {
 
