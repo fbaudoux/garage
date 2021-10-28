@@ -38,7 +38,7 @@ public class SearchDomainService {
     ModelMapper modelMapper;
 
 
-    private int nobody = 0;
+    private final int nobody = 0;
 
     public SearchDomainService(TeammateRepository teammateRepository, TeamRepository teamRepository, SkillRepository skillRepository, ModelMapper modelMapper) {
         this.teammateRepository = teammateRepository;
@@ -95,15 +95,15 @@ public class SearchDomainService {
 
         if (solution != null) {
             logger.info("A SOLUTION");
-            for (int i = 0; i < solverVariablesTable.length; i++) {
+            for (IntVar integers : solverVariablesTable) {
 
-                int currentId = solution.getIntVal(solverVariablesTable[i]);
+                int currentId = solution.getIntVal(integers);
                 if (currentId != nobody) {
-                    TeammateEntity one = teammateRepository.getOne((long) currentId);
-                    mapping.get(solverVariablesTable[i]).setTeammate(one);
-                    logger.info((solverVariablesTable[i].getName() + " : " + one.getName()));
+                    TeammateEntity one = teammateRepository.getById((long) currentId);
+                    mapping.get(integers).setTeammate(one);
+                    logger.info((integers.getName() + " : " + one.getName()));
                 } else {
-                    logger.info(solverVariablesTable[i].getName() + " : " + "NOBODY");
+                    logger.info(integers.getName() + " : " + "NOBODY");
                 }
             }
         }
@@ -133,7 +133,7 @@ public class SearchDomainService {
                 int currentId = s.getIntVal(solverVariablesTable[i]);
                 tuple[i] = currentId;
                 if (currentId != nobody) {
-                    TeammateEntity one = teammateRepository.getOne((long) currentId);
+                    TeammateEntity one = teammateRepository.getById((long) currentId);
                     logger.info("possibleResult " + (solverVariablesTable[i].getName() + " : " + one.getName()));
                 } else {
                     logger.info("possibleResult " + solverVariablesTable[i].getName() + " : " + "NOBODY");
