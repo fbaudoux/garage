@@ -1,6 +1,7 @@
 package fr.crew.garage.in.rest;
 
 import fr.crew.garage.api.skill.CreateSkillUseCase;
+import fr.crew.garage.api.skill.DeleteSkillUseCase;
 import fr.crew.garage.api.skill.GetAllSkillsUseCase;
 import fr.crew.garage.api.skill.GetSkillUseCase;
 import fr.crew.garage.api.skill.dto.SkillDTO;
@@ -21,14 +22,24 @@ import java.util.Collection;
 public class SkillController {
 
 
-    @Autowired
+    final
     CreateSkillUseCase createSkillUseCase;
 
-    @Autowired
+    final
     GetAllSkillsUseCase getAllSkillsUseCase;
 
-    @Autowired
+    final
     GetSkillUseCase getSkillUseCase;
+
+    final
+    DeleteSkillUseCase deleteSkillUseCase;
+
+    public SkillController(CreateSkillUseCase createSkillUseCase, GetAllSkillsUseCase getAllSkillsUseCase, GetSkillUseCase getSkillUseCase, DeleteSkillUseCase deleteSkillUseCase) {
+        this.createSkillUseCase = createSkillUseCase;
+        this.getAllSkillsUseCase = getAllSkillsUseCase;
+        this.getSkillUseCase = getSkillUseCase;
+        this.deleteSkillUseCase = deleteSkillUseCase;
+    }
 
     @ApiOperation(value = "createSkill", notes = "Create a new skill with a name given in parameter, this skill could then be assigned to teammates")
     @PostMapping({"/skills/"})
@@ -54,6 +65,14 @@ public class SkillController {
     @GetMapping({"/skills/{id}"})
     public ResponseEntity<SkillDTO> getSkill(@PathVariable Long id) {
         return ResponseEntity.ok(getSkillUseCase.execute(id));
+    }
+
+    @DeleteMapping({"/skills/{id}"})
+    public ResponseEntity deleteSkill(@PathVariable Long id) {
+        SkillDTO dto = new SkillDTO();
+        dto.setId(id);
+        deleteSkillUseCase.execute(dto);
+        return ResponseEntity.ok().build();
     }
 
 }

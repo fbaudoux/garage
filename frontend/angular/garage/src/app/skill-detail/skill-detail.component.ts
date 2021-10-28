@@ -43,4 +43,13 @@ export class SkillDetailComponent implements OnInit {
       }
     );
   }
+
+  deleteSkill() {
+    if (this.skill) {
+      this.skillService.deleteSkill(this.skill).subscribe(result => {
+          this.goBack();
+        }
+      );
+    }
+  }
 }

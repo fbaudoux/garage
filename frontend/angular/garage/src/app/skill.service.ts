@@ -52,4 +52,9 @@ export class SkillService {
   }
 
 
+  deleteSkill(skill: Skill) {
+    return  this.http.delete<Skill>(this.skillsUrl+skill.id).pipe(
+      catchError(this.handleError<Skill>('deleteSkill', undefined))
+    );
+  }
 }
