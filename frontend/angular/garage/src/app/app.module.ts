@@ -22,6 +22,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import { SkillDetailComponent } from './skill-detail/skill-detail.component';
+import { MapComponent } from './map/map.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { SkillDetailComponent } from './skill-detail/skill-detail.component';
     TeammateDetailComponent,
     SkillsComponent,
     SearchComponent,
-    SkillDetailComponent
+    SkillDetailComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
