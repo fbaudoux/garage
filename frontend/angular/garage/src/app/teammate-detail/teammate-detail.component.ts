@@ -49,11 +49,9 @@ export class TeammateDetailComponent implements OnInit {
 
   goBack(): void {
     if(this.team){
-      console.log("go back une team");
       this.router.navigate(["/detail/"+this.team.id]);
     }
     else{
-      console.log("go back liste des teams");
       this.router.navigate(['teams/']);
     }
   }
@@ -67,9 +65,7 @@ export class TeammateDetailComponent implements OnInit {
     {
       this.teammate = teammate;
       if (this.team){
-        console.log("une team");
         if (this.teammate) {
-          console.log("un mate");
           this.team.teammates.push(this.teammate);
         }
         this.teamService.updateTeam(this.team).subscribe( result =>this.goBack());
@@ -87,7 +83,6 @@ export class TeammateDetailComponent implements OnInit {
 
   delete() {
     if(this.teammate) {
-      console.log("delete");
       this.teammateService.deleteTeammate(this.teammate).subscribe(result => this.goBack());
     }
   }
