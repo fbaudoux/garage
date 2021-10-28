@@ -13,14 +13,20 @@ import javax.transaction.Transactional;
 @Component
 public class AddTeammateToTeamUseCase {
 
-    @Autowired
+    final
     TeamDomainService domainService;
 
-    @Autowired
+    final
     TeamRepository teamRepository;
 
-    @Autowired
+    final
     TeammateRepository teammateRepository;
+
+    public AddTeammateToTeamUseCase(TeamDomainService domainService, TeamRepository teamRepository, TeammateRepository teammateRepository) {
+        this.domainService = domainService;
+        this.teamRepository = teamRepository;
+        this.teammateRepository = teammateRepository;
+    }
 
     @Transactional
     public void execute(TeammateDTO mate, TeamDTO team) {

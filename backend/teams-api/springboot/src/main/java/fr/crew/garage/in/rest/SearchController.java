@@ -18,8 +18,12 @@ import java.util.List;
 public class SearchController {
 
 
-    @Autowired
+    final
     SearchUseCase searchUseCase;
+
+    public SearchController(SearchUseCase searchUseCase) {
+        this.searchUseCase = searchUseCase;
+    }
 
     @PostMapping({"/search/"})
     public ResponseEntity<List<CrewDTO>> search(@Valid @RequestBody List<CrewSearchDTO> search) {

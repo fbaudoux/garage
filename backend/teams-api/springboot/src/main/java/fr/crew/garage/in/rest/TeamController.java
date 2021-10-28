@@ -28,30 +28,45 @@ import java.util.concurrent.Executors;
 @Api(value = "Teams", tags = {"Teams"})
 public class TeamController {
 
-    @Autowired
+    final
     GetAllTeamsUseCase getAllTeamsUseCase;
-    @Autowired
+    final
     GetAllTeamsPageByPageUseCase getAllTeamsPageByPageUseCase;
-    @Autowired
+    final
     StreamAllTeamsUseCase streamAllTeamsUseCase;
-    @Autowired
+    final
     GetAllTeammatesUseCase getAllTeammatesUseCase;
-    @Autowired
+    final
     GetTeamUseCase getTeamUseCase;
-    @Autowired
+    final
     AddTeammateToTeamUseCase addTeammateToTeamUseCase;
-    @Autowired
+    final
     CreateTeammateUseCase createTeammateUseCase;
-    @Autowired
+    final
     CreateTeamUseCase createTeamUseCase;
-    @Autowired
+    final
     GetTeammateUseCase getTeammateUseCase;
-    @Autowired
+    final
     AddSkillToTeammateUseCase addSkillToTeammateUseCase;
-    @Autowired
+    final
     DeleteTeammateUseCase deleteTeammateUseCase;
-    @Autowired
+    final
     DeleteTeamUseCase deleteTeamUseCase;
+
+    public TeamController(GetAllTeamsPageByPageUseCase getAllTeamsPageByPageUseCase, GetAllTeamsUseCase getAllTeamsUseCase, StreamAllTeamsUseCase streamAllTeamsUseCase, GetAllTeammatesUseCase getAllTeammatesUseCase, GetTeamUseCase getTeamUseCase, AddTeammateToTeamUseCase addTeammateToTeamUseCase, CreateTeammateUseCase createTeammateUseCase, CreateTeamUseCase createTeamUseCase, GetTeammateUseCase getTeammateUseCase, AddSkillToTeammateUseCase addSkillToTeammateUseCase, DeleteTeammateUseCase deleteTeammateUseCase, DeleteTeamUseCase deleteTeamUseCase) {
+        this.getAllTeamsPageByPageUseCase = getAllTeamsPageByPageUseCase;
+        this.getAllTeamsUseCase = getAllTeamsUseCase;
+        this.streamAllTeamsUseCase = streamAllTeamsUseCase;
+        this.getAllTeammatesUseCase = getAllTeammatesUseCase;
+        this.getTeamUseCase = getTeamUseCase;
+        this.addTeammateToTeamUseCase = addTeammateToTeamUseCase;
+        this.createTeammateUseCase = createTeammateUseCase;
+        this.createTeamUseCase = createTeamUseCase;
+        this.getTeammateUseCase = getTeammateUseCase;
+        this.addSkillToTeammateUseCase = addSkillToTeammateUseCase;
+        this.deleteTeammateUseCase = deleteTeammateUseCase;
+        this.deleteTeamUseCase = deleteTeamUseCase;
+    }
 
 
     @ApiOperation(value = "getAllTeams", notes = "Get all teams without any details about membership")
