@@ -3,8 +3,8 @@ package fr.crew.garage.api.search;
 import fr.crew.garage.api.search.dto.CrewDTO;
 import fr.crew.garage.api.search.dto.CrewSearchDTO;
 import fr.crew.garage.domain.search.Crew;
-import fr.crew.garage.domain.search.CrewSearch;
 import fr.crew.garage.domain.search.SearchDomainService;
+import fr.crew.garage.domain.search.entity.CrewSearchEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -30,9 +30,9 @@ public class SearchUseCase {
     @Transactional
     public List<CrewDTO> execute(List<CrewSearchDTO> crewSearches) {
 
-        List<CrewSearch> searchs = crewSearches
+        List<CrewSearchEntity> searchs = crewSearches
                 .stream()
-                .map(crewSearch -> modelMapper.map(crewSearch, CrewSearch.class))
+                .map(crewSearch -> modelMapper.map(crewSearch, CrewSearchEntity.class))
                 .collect(Collectors.toList());
 
         Collection<Crew> crews = domainService.search(searchs);

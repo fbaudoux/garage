@@ -1,5 +1,6 @@
 package fr.crew.garage.domain.search;
 
+import fr.crew.garage.domain.search.entity.CrewSearchEntity;
 import fr.crew.garage.domain.skill.entity.SkillEntity;
 import fr.crew.garage.domain.skill.repository.SkillRepository;
 import fr.crew.garage.domain.team.entity.TeamEntity;
@@ -47,7 +48,7 @@ public class SearchDomainService {
         this.modelMapper = modelMapper;
     }
 
-    public Collection<Crew> search(List<CrewSearch> crewSearches) {
+    public Collection<Crew> search(List<CrewSearchEntity> crewSearches) {
 
         Collection<Crew> result = new ArrayList<>();
 
@@ -55,7 +56,7 @@ public class SearchDomainService {
         List<IntVar> vars = new ArrayList<>();
         HashMap<IntVar, CrewMember> mapping = new HashMap<>();
 
-        for (CrewSearch crew : crewSearches) {
+        for (CrewSearchEntity crew : crewSearches) {
             List<CrewMember> members = new ArrayList<>();
             List<IntVar> varsByCrew = new ArrayList<>();
             logger.info("The crew " + crew.getName() + " needs " + crew.getSkills().size() + " members");
@@ -111,7 +112,7 @@ public class SearchDomainService {
         return result;
     }
 
-    public List<int[]> possibleResult(CrewSearch crewSearch, TeamEntity team) {
+    public List<int[]> possibleResult(CrewSearchEntity crewSearch, TeamEntity team) {
 
         Model model = new Model("all permutation");
         List<IntVar> vars = new ArrayList<>();

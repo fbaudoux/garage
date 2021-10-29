@@ -1,10 +1,10 @@
 <div class="main-div">
 <mat-card class="search-card">
   <mat-card-header>
-    <mat-card-title>Search</mat-card-title>
+    <mat-card-title>Search : {{search.name}}</mat-card-title>
   </mat-card-header>
 
-  <div *ngFor="let search of searchs">
+  <div *ngFor="let search of search.searches">
   <mat-form-field appearance="standard">
     <mat-label> Enter a name for this crew</mat-label>
     <input matInput  [(ngModel)]="search.name">
@@ -21,13 +21,15 @@
   </div>
 
   <mat-card-actions>
-   <button mat-raised-button color="primary" (click)="search()">Search</button>
-   <button mat-raised-button color="secondary" (click)="addSearch()">Add new crew to search for</button>
+   <button mat-raised-button color="primary" (click)="executeSearch()">Search</button>
+   <button mat-raised-button color="secondary" (click)="addCrewSearch()">Add new crew to search for</button>
+    <button mat-raised-button color="primary" (click)="save()">Save</button>
+    <button mat-raised-button color="primary" (click)="load()">Load</button>
   </mat-card-actions>
 
 
 </mat-card>
-  
+
 <div *ngIf="searchResult.length">
 <mat-card class="search-card">
   <mat-card-header>

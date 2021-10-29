@@ -5,6 +5,7 @@ import {Skill} from "./teams/Skill";
 import {catchError} from "rxjs/operators";
 import {Crew} from "./search/Crew";
 import {CrewSearch} from "./search/CrewSearch";
+import {Search} from "./search/Search";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class SearchService {
   constructor(private http: HttpClient) { }
 
   search(searchs:CrewSearch[]): Observable<Crew[]> {
-    return this.http.post<Crew[]>(this.searchUrl,searchs).pipe(
+    return this.http.post<Crew[]>(this.searchUrl+"execute",searchs).pipe(
       catchError(this.handleError<Crew[]>('search', []))
     );
   }
@@ -39,5 +40,11 @@ export class SearchService {
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
+  }
+
+  save(search: Search): Observable<Search> {
+    return this.http.post<Search>(this.searchUrl,search).pipe(
+      catchError(this.handleError<Search>('search', undefined))
+    );
   }
 }

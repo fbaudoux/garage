@@ -1,5 +1,6 @@
 package fr.crew.garage.domain.search;
 
+import fr.crew.garage.domain.search.entity.CrewSearchEntity;
 import fr.crew.garage.domain.skill.entity.SkillEntity;
 import fr.crew.garage.domain.skill.repository.SkillRepository;
 import org.junit.jupiter.api.Test;
@@ -10,11 +11,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 
-public class SearchDomainServiceTest {
+public class SearchEntityDomainServiceTest {
 
 
     @Autowired
@@ -31,12 +34,12 @@ public class SearchDomainServiceTest {
     void searchOneCrewOfOneTeammate() {
         SkillEntity skill = skillRepository.findByName("use the force");
 
-        ArrayList<SkillEntity> lstSkill = new ArrayList<>();
+        Set<SkillEntity> lstSkill = new HashSet<>();
         lstSkill.add(skill);
 
-        CrewSearch crewSearch = new CrewSearch("someone who can use the force", lstSkill);
+        CrewSearchEntity crewSearch = new CrewSearchEntity("someone who can use the force", lstSkill);
 
-        ArrayList<CrewSearch> lstSearch = new ArrayList<>();
+        ArrayList<CrewSearchEntity> lstSearch = new ArrayList<>();
         lstSearch.add(crewSearch);
 
         searchDomainService.search(lstSearch);
@@ -47,13 +50,13 @@ public class SearchDomainServiceTest {
     void searchOneCrewOfTwoTeammate() {
         SkillEntity skill1 = skillRepository.findByName("drive a x-wing");
         SkillEntity skill2 = skillRepository.findByName("use the force");
-        ArrayList<SkillEntity> lstSkill = new ArrayList<>();
+        Set<SkillEntity> lstSkill = new HashSet<>();
         lstSkill.add(skill1);
         lstSkill.add(skill2);
 
-        CrewSearch crewSearch = new CrewSearch("someone who can drive a x-wing", lstSkill);
+        CrewSearchEntity crewSearch = new CrewSearchEntity("someone who can drive a x-wing", lstSkill);
 
-        ArrayList<CrewSearch> lstSearch = new ArrayList<>();
+        ArrayList<CrewSearchEntity> lstSearch = new ArrayList<>();
         lstSearch.add(crewSearch);
         searchDomainService.search(lstSearch);
     }
@@ -64,13 +67,13 @@ public class SearchDomainServiceTest {
     void searchOneCrewOfOneTeammateWithNoSolution() {
         SkillEntity skill = skillRepository.findByName("do impossible things");
 
-        ArrayList<SkillEntity> lstSkill = new ArrayList<>();
+        Set<SkillEntity> lstSkill = new HashSet<>();
         lstSkill.add(skill);
 
-        CrewSearch crewSearch = new CrewSearch("someone who can do impossible things", lstSkill);
+        CrewSearchEntity crewSearchEntity = new CrewSearchEntity("someone who can do impossible things", lstSkill);
 
-        ArrayList<CrewSearch> lstSearch = new ArrayList<>();
-        lstSearch.add(crewSearch);
+        ArrayList<CrewSearchEntity> lstSearch = new ArrayList<>();
+        lstSearch.add(crewSearchEntity);
 
         searchDomainService.search(lstSearch);
     }

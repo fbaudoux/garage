@@ -6,9 +6,19 @@ import java.util.List;
 
 public class CrewSearchDTO {
 
-    private final String name;
-    private final List<SkillDTO> skills;
+    private String name;
+    private List<SkillDTO> skills;
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSkills(List<SkillDTO> skills) {
+        this.skills = skills;
+    }
+
+    public CrewSearchDTO() {
+    }
 
     public CrewSearchDTO(String name, List<SkillDTO> skills) {
         this.name = name;
