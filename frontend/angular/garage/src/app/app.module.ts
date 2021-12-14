@@ -23,6 +23,7 @@ import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import { SkillDetailComponent } from './skill-detail/skill-detail.component';
 import { MapComponent } from './map/map.component';
+import { SearchsComponent } from './searchs/searchs.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { MapComponent } from './map/map.component';
     SkillsComponent,
     SearchComponent,
     SkillDetailComponent,
-    MapComponent
+    MapComponent,
+    SearchsComponent
   ],
   imports: [
     BrowserModule,

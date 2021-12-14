@@ -1,7 +1,7 @@
 package fr.crew.garage.domain.search.entity;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity(
         name = "Search"
@@ -32,11 +32,11 @@ public class SearchEntity {
         this.id = id;
     }
 
-    public List<CrewSearchEntity> getSearches() {
+    public Set<CrewSearchEntity> getSearches() {
         return searches;
     }
 
-    public void setSearches(List<CrewSearchEntity> searches) {
+    public void setSearches(Set<CrewSearchEntity> searches) {
         this.searches = searches;
     }
 
@@ -49,6 +49,6 @@ public class SearchEntity {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "searchid", referencedColumnName = "id")
-    private List<CrewSearchEntity> searches;
+    private Set<CrewSearchEntity> searches;
 
 }

@@ -6,10 +6,13 @@ import {TeammateDetailComponent} from "./teammate-detail/teammate-detail.compone
 import {SkillsComponent} from "./skills/skills.component";
 import {SearchComponent} from "./search/search.component";
 import {SkillDetailComponent} from "./skill-detail/skill-detail.component";
+import {SearchsComponent} from "./searchs/searchs.component";
 
 const routes: Routes = [
   { path: 'teams', component: TeamsComponent },
   { path: 'search', component: SearchComponent },
+  { path: 'search/:id', component: SearchComponent },
+  { path: 'searchs', component: SearchsComponent },
   { path: 'skills', component: SkillsComponent },
   { path: 'skill/:id', component: SkillDetailComponent },
   { path: 'skill', component: SkillDetailComponent },

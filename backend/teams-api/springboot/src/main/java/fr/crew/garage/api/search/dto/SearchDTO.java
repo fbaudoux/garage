@@ -4,6 +4,7 @@ import java.util.List;
 
 public class SearchDTO {
 
+    private Long id;
     private String name;
     private List<CrewSearchDTO> searches;
 
@@ -29,5 +30,13 @@ public class SearchDTO {
 
     public void setSearches(List<CrewSearchDTO> searches) {
         this.searches = searches;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

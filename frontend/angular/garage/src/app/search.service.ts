@@ -14,6 +14,7 @@ export class SearchService {
 
 
   private searchUrl = 'http://localhost:8082/search/';  // URL to web api
+  private searchsUrl = 'http://localhost:8082/searchs/';  // URL to web api
   constructor(private http: HttpClient) { }
 
   search(searchs:CrewSearch[]): Observable<Crew[]> {
@@ -45,6 +46,18 @@ export class SearchService {
   save(search: Search): Observable<Search> {
     return this.http.post<Search>(this.searchUrl,search).pipe(
       catchError(this.handleError<Search>('search', undefined))
+    );
+  }
+
+  getSearchs(): Observable<Search[]> {
+    return this.http.get<Search[]>(this.searchsUrl).pipe(
+      catchError(this.handleError<Search[]>('getSearchs', []))
+    );
+  }
+
+  getSearch(id: number) : Observable<Search>{
+    return this.http.get<Search>(this.searchUrl+id+"/").pipe(
+      catchError(this.handleError<Search>('getSearch', undefined))
     );
   }
 }
