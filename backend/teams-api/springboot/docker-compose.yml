@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  teams-api-springboot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: teams-api-springboot
+    ports:
+      - "8082:8082"

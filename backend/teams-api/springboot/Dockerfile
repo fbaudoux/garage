@@ -1,16 +1,16 @@
 # Build jar
-FROM adoptopenjdk/openjdk15:jdk-15.0.2_7-alpine as build
+FROM eclipse-temurin:11 as build
 
 COPY config/ /app/config/
 COPY gradle/ /app/gradle/
 COPY src/ /app/src/
-COPY build.gradle gradlew settings.gradle package.json package-lock.json webpack.config.js /app/
+COPY settings.gradle build.gradle gradlew /app/
 RUN chmod +x /app/gradlew
 WORKDIR /app/
 
 RUN ./gradlew build -x test
 
-FROM adoptopenjdk/openjdk15:jre-15.0.2_7-alpine
+FROM eclipse-temurin
 
 RUN mkdir /opt/garage/
 WORKDIR /opt/garage/
