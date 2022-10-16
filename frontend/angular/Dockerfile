@@ -1,10 +1,11 @@
-
-FROM node:lts
-
-WORKDIR /usr/src/app/
-
-RUN npm install -g @angular/cli @angular-devkit/build-angular && npm install
-
-EXPOSE 4200
-
-CMD ng serve --host 0.0.0.0
+### STAGE 1: Build ###
+FROM node:12.14-alpine AS build
+WORKDIR /usr/src/app
+COPY garage/package.json garage/package-lock.json ./
+RUN npm install
+COPY ./garage .
+RUN npm run build
+### STAGE 2: Run ###
+FROM nginx:1.17.1-alpine
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY --from=build /usr/src/app/dist/garage /usr/share/nginx/html

@@ -1,0 +1,10 @@
+# Build jar
+FROM eclipse-temurin:11 as build
+
+COPY config/ /app/config/
+COPY gradle/ /app/gradle/
+COPY settings.gradle build.gradle gradlew /app/
+RUN chmod +x /app/gradlew
+WORKDIR /app/
+ 
+#ENTRYPOINT [ "gradlew", "bootRun"] 
