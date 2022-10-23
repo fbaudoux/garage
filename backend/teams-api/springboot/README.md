@@ -1,13 +1,15 @@
+L'API est ici développée en Java avec SpringBoot 2 
 
-* level 0 : projet SpringBoot 2.2.5 - java 8 - un seul endpoint /ok   avec le test associé
-* level 1 : ajout de la dépendance et de la configuration swagger 2.9.2
-* level 2 : création de l'API Team. Le controller, les endpoints, l'application service, le domain service, les entity.
-            pas de repository, le domain service garde tout en mémoire dans cette version. Les tests unitaires couvrent le
-            controller et le domain service.
-* level 3 : introduction de la notion de repository. J'utilise une base H2 et SpringJDBC. La base est crée et peuplée via les fichiers schema.sql et data.sql
-* level 4 : on passe en JPA , cela simplifie un peu les repository mais les tests doivent être annotés @Transactional pour fonctionner
-* level 5 : ajout des fonctions de logging avec logback
-* level 6 : mise en place d'un endpoint qui gère la pagination
-* level 7 : mise en place d'un endpoint qui renvoie un flux d informations sous la forme de Server Sent Event
-            et d'un endpoint qui gère la création en masse d'équipes  
+Pour utiliser l'API, il faut utiliser la commande :
+docker-compose up -build -d
+et l'API sera disponible sur le port 8082
 
+
+Pour développer l'API, il faut utiliser la commande :
+
+docker run -p 8082:8082 -v "$PWD/src":"/app/src"  --rm -it $(docker build -q -f DockerfileDev .) bash
+
+On arrive dans un bash du conteneur et on peut executer 
+./startDev.sh
+
+on a les logs du serveurs dans le conteneur et on a la surveillance du code source avec redémmarage de springboot auto

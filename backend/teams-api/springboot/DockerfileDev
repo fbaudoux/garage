@@ -3,8 +3,9 @@ FROM eclipse-temurin:11 as build
 
 COPY config/ /app/config/
 COPY gradle/ /app/gradle/
-COPY settings.gradle build.gradle gradlew /app/
+COPY settings.gradle build.gradle gradlew startDev.sh /app/
 RUN chmod +x /app/gradlew
+RUN chmod +x /app/startDev.sh
 WORKDIR /app/
  
-#ENTRYPOINT [ "gradlew", "bootRun"] 
+#ENTRYPOINT [ "startDev.sh"]
