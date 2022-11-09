@@ -1,4 +1,5 @@
 FROM node:lts
 WORKDIR /usr/src/app/
 RUN npm install -g @angular/cli @angular-devkit/build-angular
+RUN export NODE_OPTIONS=--openssl-legacy-provider
 EXPOSE 4200

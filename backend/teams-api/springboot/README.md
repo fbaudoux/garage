@@ -1,7 +1,7 @@
 L'API est ici développée en Java avec SpringBoot 2 
 
 Pour utiliser l'API, il faut utiliser la commande :
-docker-compose up -build -d
+docker-compose up --build -d
 et l'API sera disponible sur le port 8082
 
 
