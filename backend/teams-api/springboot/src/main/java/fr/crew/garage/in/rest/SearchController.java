@@ -4,10 +4,17 @@ import fr.crew.garage.api.search.GetAllSearchsUseCase;
 import fr.crew.garage.api.search.GetSearchUseCase;
 import fr.crew.garage.api.search.SaveSearchUseCase;
 import fr.crew.garage.api.search.SearchUseCase;
-import fr.crew.garage.api.search.dto.CrewDTO;
-import fr.crew.garage.api.search.dto.CrewSearchDTO;
-import fr.crew.garage.api.search.dto.SearchDTO;
+import fr.crew.garage.domain.search.Crew;
+import fr.crew.garage.domain.search.SearchDomainService;
+
+import fr.crew.garage.domain.search.entity.CrewSearchEntity;
+import fr.crew.garage.domain.search.entity.SearchEntity;
+import fr.crew.garage.domain.search.repository.SearchRepository;
+import fr.crew.garage.domain.skill.repository.SkillRepository;
+import fr.crew.garage.domain.team.repository.TeamRepository;
+import fr.crew.garage.domain.team.repository.TeammateRepository;
 import io.swagger.annotations.Api;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,32 +37,35 @@ public class SearchController {
     final GetSearchUseCase getSearchUseCase;
 
 
-    public SearchController(SearchUseCase searchUseCase, SaveSearchUseCase saveSearchUseCase, GetAllSearchsUseCase getAllSearchs, GetSearchUseCase getSearchUseCase) {
-        this.searchUseCase = searchUseCase;
-        this.saveSearchUseCase = saveSearchUseCase;
-        this.getAllSearchs = getAllSearchs;
-        this.getSearchUseCase = getSearchUseCase;
+    public SearchController(TeammateRepository teammateRepository , TeamRepository teamRepository , SkillRepository skillRepository, SearchRepository searchRepository) {
+        ModelMapper mapper = new ModelMapper();
+        SearchDomainService searchDomainService = new SearchDomainService(teammateRepository,teamRepository,skillRepository,mapper);
+
+        this.searchUseCase = new SearchUseCase(mapper,searchDomainService);
+        this.saveSearchUseCase = new SaveSearchUseCase(searchRepository,mapper);
+        this.getAllSearchs = new GetAllSearchsUseCase(searchRepository,mapper);
+        this.getSearchUseCase = new GetSearchUseCase(searchRepository,mapper);
     }
 
     @PostMapping({"/search/execute"})
-    public ResponseEntity<List<CrewDTO>> search(@Valid @RequestBody List<CrewSearchDTO> search) {
-        List<CrewDTO> result = searchUseCase.execute(search);
+    public ResponseEntity<List<Crew>> search(@Valid @RequestBody List<CrewSearchEntity> search) {
+        List<Crew> result = searchUseCase.execute(search);
         return ResponseEntity.ok(result);
     }
 
     @PostMapping({"/search/"})
-    public ResponseEntity<SearchDTO> search(@Valid @RequestBody SearchDTO search) {
+    public ResponseEntity<SearchEntity> search(@Valid @RequestBody SearchEntity search) {
         return ResponseEntity.ok(saveSearchUseCase.execute(search));
     }
 
 
     @GetMapping("/searchs/")
-    public ResponseEntity<List<SearchDTO>> getAllSearchs() {
+    public ResponseEntity<List<SearchEntity>> getAllSearchs() {
         return ResponseEntity.ok(getAllSearchs.execute());
     }
 
     @GetMapping("/search/{searchId}/")
-    public ResponseEntity<SearchDTO> getSearchById(@PathVariable(value = "searchId") Long searchId) {
+    public ResponseEntity<SearchEntity> getSearchById(@PathVariable(value = "searchId") Long searchId) {
         return ResponseEntity.ok(getSearchUseCase.execute(searchId));
     }
 

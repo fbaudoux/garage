@@ -1,13 +1,16 @@
 package fr.crew.garage.in.rest;
 
 import fr.crew.garage.api.skill.AddSkillToTeammateUseCase;
-import fr.crew.garage.api.skill.dto.SkillDTO;
 import fr.crew.garage.api.team.*;
-import fr.crew.garage.api.team.dto.TeamDTO;
-import fr.crew.garage.api.team.dto.TeammateDTO;
+import fr.crew.garage.domain.skill.SkillDomainService;
+import fr.crew.garage.domain.skill.repository.SkillRepository;
+import fr.crew.garage.domain.team.TeamDomainService;
+import fr.crew.garage.domain.team.entity.TeamEntity;
+import fr.crew.garage.domain.team.entity.TeammateEntity;
+import fr.crew.garage.domain.team.repository.TeamRepository;
+import fr.crew.garage.domain.team.repository.TeammateRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,33 +56,36 @@ public class TeamController {
     final
     DeleteTeamUseCase deleteTeamUseCase;
 
-    public TeamController(GetAllTeamsPageByPageUseCase getAllTeamsPageByPageUseCase, GetAllTeamsUseCase getAllTeamsUseCase, StreamAllTeamsUseCase streamAllTeamsUseCase, GetAllTeammatesUseCase getAllTeammatesUseCase, GetTeamUseCase getTeamUseCase, AddTeammateToTeamUseCase addTeammateToTeamUseCase, CreateTeammateUseCase createTeammateUseCase, CreateTeamUseCase createTeamUseCase, GetTeammateUseCase getTeammateUseCase, AddSkillToTeammateUseCase addSkillToTeammateUseCase, DeleteTeammateUseCase deleteTeammateUseCase, DeleteTeamUseCase deleteTeamUseCase) {
-        this.getAllTeamsPageByPageUseCase = getAllTeamsPageByPageUseCase;
-        this.getAllTeamsUseCase = getAllTeamsUseCase;
-        this.streamAllTeamsUseCase = streamAllTeamsUseCase;
-        this.getAllTeammatesUseCase = getAllTeammatesUseCase;
-        this.getTeamUseCase = getTeamUseCase;
-        this.addTeammateToTeamUseCase = addTeammateToTeamUseCase;
-        this.createTeammateUseCase = createTeammateUseCase;
-        this.createTeamUseCase = createTeamUseCase;
-        this.getTeammateUseCase = getTeammateUseCase;
-        this.addSkillToTeammateUseCase = addSkillToTeammateUseCase;
-        this.deleteTeammateUseCase = deleteTeammateUseCase;
-        this.deleteTeamUseCase = deleteTeamUseCase;
+    public TeamController(TeamRepository teamRepository, TeammateRepository teammateRepository, SkillRepository skillRepository) {
+
+        TeamDomainService teamDomainService = new TeamDomainService(teamRepository, teammateRepository);
+        SkillDomainService skillDomainService = new SkillDomainService(skillRepository, teammateRepository);
+        this.getAllTeamsPageByPageUseCase = new GetAllTeamsPageByPageUseCase(teamDomainService);
+        this.getAllTeamsUseCase = new GetAllTeamsUseCase(teamRepository);
+        this.streamAllTeamsUseCase = new StreamAllTeamsUseCase(teamRepository);
+        this.getAllTeammatesUseCase = new GetAllTeammatesUseCase(teammateRepository);
+        this.getTeamUseCase = new GetTeamUseCase(teamRepository);
+        this.addTeammateToTeamUseCase = new AddTeammateToTeamUseCase(teamDomainService, teamRepository, teammateRepository);
+        this.createTeammateUseCase = new CreateTeammateUseCase(teamDomainService);
+        this.createTeamUseCase = new CreateTeamUseCase(teamDomainService);
+        this.getTeammateUseCase = new GetTeammateUseCase(teammateRepository);
+        this.addSkillToTeammateUseCase = new AddSkillToTeammateUseCase(skillDomainService, skillRepository, teammateRepository);
+        this.deleteTeammateUseCase = new DeleteTeammateUseCase(teammateRepository);
+        this.deleteTeamUseCase = new DeleteTeamUseCase(teamRepository);
     }
 
 
     @ApiOperation(value = "getAllTeams", notes = "Get all teams without any details about membership")
     @GetMapping({"/teams/"})
-    public ResponseEntity<Collection<TeamDTO>> getAllTeams() {
-        Collection<TeamDTO> res = getAllTeamsUseCase.execute();
+    public ResponseEntity<Collection<TeamEntity>> getAllTeams() {
+        Collection<TeamEntity> res = getAllTeamsUseCase.execute();
         return ResponseEntity.ok(res);
     }
 
     @ApiOperation(value = "getAllTeamsPageByPage", notes = "Get all teams without any details about membership")
     @GetMapping({"/teams/page/{pageNumber}"})
-    public ResponseEntity<Page<TeamDTO>> getAllTeamsPageByPage(@PathVariable(value = "pageNumber") Integer pageNumber) {
-        Page<TeamDTO> res = getAllTeamsPageByPageUseCase.execute(pageNumber);
+    public ResponseEntity<Page<TeamEntity>> getAllTeamsPageByPage(@PathVariable(value = "pageNumber") Integer pageNumber) {
+        Page<TeamEntity> res = null;
         return ResponseEntity.ok(res);
     }
 
@@ -91,7 +97,7 @@ public class TeamController {
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.execute(() -> {
             try {
-                streamAllTeamsUseCase.execute(emitter);
+                //streamAllTeamsUseCase.execute(emitter);
             } catch (Exception e) {
                 e.printStackTrace();
                 emitter.completeWithError(e);
@@ -107,21 +113,21 @@ public class TeamController {
 
     @ApiOperation(value = "getTeam", notes = "Get a team with its teammates")
     @GetMapping({"/teams/{teamId}/"})
-    public ResponseEntity<TeamDTO> getTeam(@PathVariable(value = "teamId") Long teamId) {
+    public ResponseEntity<TeamEntity> getTeam(@PathVariable(value = "teamId") Long teamId) {
         return ResponseEntity.ok(getTeamUseCase.execute(teamId));
     }
 
     @ApiOperation(value = "getAllTeammates", notes = "Get all teammates")
     @GetMapping({"/teammates/"})
-    public ResponseEntity<Collection<TeammateDTO>> getAllTeammates() {
+    public ResponseEntity<Collection<TeammateEntity>> getAllTeammates() {
 
-        Collection<TeammateDTO> res = getAllTeammatesUseCase.execute();
+        Collection<TeammateEntity> res = getAllTeammatesUseCase.execute();
         return ResponseEntity.ok(res);
     }
 
     @ApiOperation(value = "getTeammate", notes = "Get a teammate with its skills")
     @GetMapping({"/teammates/{teammateId}/"})
-    public ResponseEntity<TeammateDTO> getTeammate(@PathVariable(value = "teammateId") Long teammateId) {
+    public ResponseEntity<TeammateEntity> getTeammate(@PathVariable(value = "teammateId") Long teammateId) {
         return ResponseEntity.ok(getTeammateUseCase.execute(teammateId));
     }
 
@@ -129,9 +135,9 @@ public class TeamController {
     @PostMapping({"/teammates/"})
     public ResponseEntity createTeammate(@Valid @RequestBody String name) {
 
-        TeammateDTO newMate = new TeammateDTO();
+        TeammateEntity newMate = new TeammateEntity();
         newMate.setName(name);
-        TeammateDTO res = createTeammateUseCase.execute(newMate);
+        TeammateEntity res = createTeammateUseCase.execute(newMate);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(res.getId()).toUri();
@@ -140,8 +146,8 @@ public class TeamController {
 
     @ApiOperation(value = "createTeam", notes = "Create a new team with a name given in parameter")
     @PostMapping({"/teams/"})
-    public ResponseEntity createTeam(@Valid @RequestBody TeamDTO teamDTO) {
-        TeamDTO res = createTeamUseCase.execute(teamDTO);
+    public ResponseEntity createTeam(@Valid @RequestBody TeamEntity teamDTO) {
+        TeamEntity res = createTeamUseCase.execute(teamDTO);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(res.getId()).toUri();
@@ -151,10 +157,10 @@ public class TeamController {
     @ApiOperation(value = "addTeammateToTeam", notes = "Create a membership relation between a team and a teammate")
     @PostMapping({"/teams/{teamId}/teammates/{teammateId}"})
     public ResponseEntity addTeammateToTeam(@PathVariable(value = "teamId") Long teamId, @PathVariable(value = "teammateId") Long teammateId) {
-        TeammateDTO mate = new TeammateDTO();
+        TeammateEntity mate = new TeammateEntity();
         mate.setId(teammateId);
 
-        TeamDTO team = new TeamDTO();
+        TeamEntity team = new TeamEntity();
         team.setId(teamId);
 
         addTeammateToTeamUseCase.execute(mate, team);
@@ -162,26 +168,26 @@ public class TeamController {
     }
 
     @PutMapping({"/teammates/"})
-    public ResponseEntity<TeammateDTO> updateTeammate(@Valid @RequestBody TeammateDTO teammateDTO) {
+    public ResponseEntity<TeammateEntity> updateTeammate(@Valid @RequestBody TeammateEntity teammateDTO) {
         return ResponseEntity.ok(createTeammateUseCase.execute(teammateDTO));
     }
 
     @PutMapping({"/teams/"})
-    public ResponseEntity<TeamDTO> updateTeam(@Valid @RequestBody TeamDTO teamDTO) {
+    public ResponseEntity<TeamEntity> updateTeam(@Valid @RequestBody TeamEntity teamDTO) {
         return ResponseEntity.ok(createTeamUseCase.execute(teamDTO));
     }
 
     @DeleteMapping({"/teammates/{teammateId}"})
-    public ResponseEntity<TeammateDTO> deleteTeammate(@PathVariable(value = "teammateId") Long teammateId) {
-        TeammateDTO dto = new TeammateDTO();
+    public ResponseEntity deleteTeammate(@PathVariable(value = "teammateId") Long teammateId) {
+        TeammateEntity dto = new TeammateEntity();
         dto.setId(teammateId);
         deleteTeammateUseCase.execute(dto);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping({"/teams/{teamId}"})
-    public ResponseEntity<TeammateDTO> deleteTeam(@PathVariable(value = "teamId") Long teamId) {
-        TeamDTO dto = new TeamDTO();
+    public ResponseEntity deleteTeam(@PathVariable(value = "teamId") Long teamId) {
+        TeamEntity dto = new TeamEntity();
         dto.setId(teamId);
         deleteTeamUseCase.execute(dto);
         return ResponseEntity.ok().build();

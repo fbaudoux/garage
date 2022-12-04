@@ -4,11 +4,13 @@ import fr.crew.garage.api.skill.CreateSkillUseCase;
 import fr.crew.garage.api.skill.DeleteSkillUseCase;
 import fr.crew.garage.api.skill.GetAllSkillsUseCase;
 import fr.crew.garage.api.skill.GetSkillUseCase;
-import fr.crew.garage.api.skill.dto.SkillDTO;
-import fr.crew.garage.api.team.dto.TeammateDTO;
+import fr.crew.garage.domain.skill.SkillDomainService;
+import fr.crew.garage.domain.skill.entity.SkillEntity;
+import fr.crew.garage.domain.skill.repository.SkillRepository;
+import fr.crew.garage.domain.team.repository.TeammateRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -34,18 +36,22 @@ public class SkillController {
     final
     DeleteSkillUseCase deleteSkillUseCase;
 
-    public SkillController(CreateSkillUseCase createSkillUseCase, GetAllSkillsUseCase getAllSkillsUseCase, GetSkillUseCase getSkillUseCase, DeleteSkillUseCase deleteSkillUseCase) {
-        this.createSkillUseCase = createSkillUseCase;
-        this.getAllSkillsUseCase = getAllSkillsUseCase;
-        this.getSkillUseCase = getSkillUseCase;
-        this.deleteSkillUseCase = deleteSkillUseCase;
+    public SkillController(SkillRepository skillRepository, TeammateRepository teammateRepository) {
+
+        ModelMapper mapper = new ModelMapper();
+        SkillDomainService skillDomainService = new SkillDomainService(skillRepository, teammateRepository);
+
+        this.createSkillUseCase = new CreateSkillUseCase(skillDomainService);
+        this.getAllSkillsUseCase = new GetAllSkillsUseCase(skillRepository);
+        this.getSkillUseCase = new GetSkillUseCase(skillRepository);
+        this.deleteSkillUseCase = new DeleteSkillUseCase(skillRepository);
     }
 
     @ApiOperation(value = "createSkill", notes = "Create a new skill with a name given in parameter, this skill could then be assigned to teammates")
     @PostMapping({"/skills/"})
-    public ResponseEntity<SkillDTO> createSkill(@Valid @RequestBody SkillDTO skillToCreate) {
+    public ResponseEntity<SkillEntity> createSkill(@Valid @RequestBody SkillEntity skillToCreate) {
 
-        SkillDTO newSkill = createSkillUseCase.execute(skillToCreate);
+        SkillEntity newSkill = createSkillUseCase.execute(skillToCreate);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")
@@ -56,20 +62,20 @@ public class SkillController {
     }
 
     @GetMapping({"/skills/"})
-    public ResponseEntity<Collection<SkillDTO>> getAllSkills() {
+    public ResponseEntity<Collection<SkillEntity>> getAllSkills() {
 
-        Collection<SkillDTO> res = getAllSkillsUseCase.execute();
+        Collection<SkillEntity> res = getAllSkillsUseCase.execute();
         return ResponseEntity.ok(res);
     }
 
     @GetMapping({"/skills/{id}"})
-    public ResponseEntity<SkillDTO> getSkill(@PathVariable Long id) {
+    public ResponseEntity<SkillEntity> getSkill(@PathVariable Long id) {
         return ResponseEntity.ok(getSkillUseCase.execute(id));
     }
 
     @DeleteMapping({"/skills/{id}"})
     public ResponseEntity deleteSkill(@PathVariable Long id) {
-        SkillDTO dto = new SkillDTO();
+        SkillEntity dto = new SkillEntity();
         dto.setId(id);
         deleteSkillUseCase.execute(dto);
         return ResponseEntity.ok().build();

@@ -1,0 +1,9 @@
+pluginManagement{
+    repositories{
+        mavenLocal()
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'backend-multiproject'
+include 'teams-core','teams-api:springboot'
