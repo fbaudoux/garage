@@ -6,7 +6,6 @@ import fr.crew.garage.api.search.SaveSearchUseCase;
 import fr.crew.garage.api.search.SearchUseCase;
 import fr.crew.garage.domain.search.Crew;
 import fr.crew.garage.domain.search.SearchDomainService;
-
 import fr.crew.garage.domain.search.entity.CrewSearchEntity;
 import fr.crew.garage.domain.search.entity.SearchEntity;
 import fr.crew.garage.domain.search.repository.SearchRepository;
@@ -37,14 +36,14 @@ public class SearchController {
     final GetSearchUseCase getSearchUseCase;
 
 
-    public SearchController(TeammateRepository teammateRepository , TeamRepository teamRepository , SkillRepository skillRepository, SearchRepository searchRepository) {
+    public SearchController(TeammateRepository teammateRepository, TeamRepository teamRepository, SkillRepository skillRepository, SearchRepository searchRepository) {
         ModelMapper mapper = new ModelMapper();
-        SearchDomainService searchDomainService = new SearchDomainService(teammateRepository,teamRepository,skillRepository,mapper);
+        SearchDomainService searchDomainService = new SearchDomainService(teammateRepository, teamRepository, skillRepository);
 
-        this.searchUseCase = new SearchUseCase(mapper,searchDomainService);
-        this.saveSearchUseCase = new SaveSearchUseCase(searchRepository,mapper);
-        this.getAllSearchs = new GetAllSearchsUseCase(searchRepository,mapper);
-        this.getSearchUseCase = new GetSearchUseCase(searchRepository,mapper);
+        this.searchUseCase = new SearchUseCase(searchDomainService);
+        this.saveSearchUseCase = new SaveSearchUseCase(searchRepository, mapper);
+        this.getAllSearchs = new GetAllSearchsUseCase(searchRepository, mapper);
+        this.getSearchUseCase = new GetSearchUseCase(searchRepository, mapper);
     }
 
     @PostMapping({"/search/execute"})

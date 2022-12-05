@@ -16,7 +16,5 @@ class GetAllSearchsUseCaseTest extends WithMockRepositoryTest {
         GetAllSearchsUseCase getAllSearchsUseCase = new GetAllSearchsUseCase(searchRepository, new ModelMapper());
         List<SearchEntity> allSearch = getAllSearchsUseCase.execute();
         assertEquals(1, allSearch.size());
-
-
     }
 }

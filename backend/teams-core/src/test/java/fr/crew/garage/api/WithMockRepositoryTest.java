@@ -58,7 +58,29 @@ public class WithMockRepositoryTest {
 
         // mock findById
         when(this.teammateRepository.getById(1L)).thenReturn(preExistingTeammate);
+        doAnswer(new Answer() {
+            public Object answer(InvocationOnMock invocation) {
+                for (TeammateEntity mate : allTeammates) {
+                    if (mate.getId() == invocation.getArgument(0)) {
+                        return mate;
+                    }
+                }
+                return null;
+            }
+        }).when(this.teammateRepository).getById(any());
+
+
         when(this.teamRepository.getById(1L)).thenReturn(preExistingTeam);
+        doAnswer(new Answer() {
+            public Object answer(InvocationOnMock invocation) {
+                for (TeamEntity team : allTeams) {
+                    if (team.getId() == invocation.getArgument(0)) {
+                        return team;
+                    }
+                }
+                return null;
+            }
+        }).when(this.teamRepository).getById(any());
 
         //mock findAll
         when(this.teammateRepository.findAll()).thenReturn(allTeammates);
@@ -108,6 +130,19 @@ public class WithMockRepositoryTest {
 
         // mock findById
         when(this.skillRepository.getById(1L)).thenReturn(preExistingSkill);
+
+
+        doAnswer(new Answer() {
+            public Object answer(InvocationOnMock invocation) {
+                for (SkillEntity skill : allSkills) {
+                    if (skill.getId() == invocation.getArgument(0)) {
+                        return skill;
+                    }
+                }
+                return null;
+            }
+        }).when(this.skillRepository).getById(any());
+
 
         // mock findAll
         when(this.skillRepository.findAll()).thenReturn(allSkills);

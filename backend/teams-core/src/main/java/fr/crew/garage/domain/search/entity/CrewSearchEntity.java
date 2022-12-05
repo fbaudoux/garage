@@ -2,7 +2,8 @@ package fr.crew.garage.domain.search.entity;
 
 import fr.crew.garage.domain.skill.entity.SkillEntity;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CrewSearchEntity {
@@ -14,14 +15,14 @@ public class CrewSearchEntity {
     private Long id;
 
 
-    private Set<SkillEntity> skills;
+    private List<SkillEntity> skills;
 
     public CrewSearchEntity() {
 
     }
 
 
-    public CrewSearchEntity(String name, Set<SkillEntity> skills) {
+    public CrewSearchEntity(String name, List<SkillEntity> skills) {
         this.name = name;
         this.skills = skills;
     }
@@ -30,7 +31,10 @@ public class CrewSearchEntity {
         return name;
     }
 
-    public Set<SkillEntity> getSkills() {
+    public List<SkillEntity> getSkills() {
+        if (skills == null) {
+            skills = new ArrayList<>();
+        }
         return skills;
     }
 
@@ -38,7 +42,7 @@ public class CrewSearchEntity {
         this.name = name;
     }
 
-    public void setSkills(Set<SkillEntity> skills) {
+    public void setSkills(List<SkillEntity> skills) {
         this.skills = skills;
     }
 
