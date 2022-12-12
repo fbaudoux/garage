@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  teams-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: springboot-live
+    ports:
+      - "8082:8082"
