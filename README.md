@@ -2,7 +2,7 @@
 
 Prerequisite  : Docker should be installed on your computer
 
-Launch the garage :  Just execute 
+To launch the garage, just execute the following command into a terminal : 
 ```
 docker compose up
 ```
