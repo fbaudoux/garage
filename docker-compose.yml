@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  teams-api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: springboot-live
+    ports:
+      - "8082:8082"
+
+  teams-front:
+    build:
+      context: ./frontend/angular
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "4200:80"
+    container_name: angular-live
