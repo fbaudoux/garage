@@ -1,10 +1,10 @@
 # garage
 
-Pre-requis : Avoir docker installé sur la machine
+Prerequisite  : Docker should be installed on your computer
 
-Lancement :  Executer 
+Launch the garage :  Just execute 
 ```
 docker compose up
 ```
 
-Le garage est désormais dispo sur http://localhost:4200
+The garage is now available on : http://localhost:4200
