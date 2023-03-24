@@ -1,9 +1,4 @@
 package fr.crew.garage.domain.skill.entity;
-
-import fr.crew.garage.domain.team.entity.TeammateEntity;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 

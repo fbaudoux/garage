@@ -1,17 +1,9 @@
 package fr.crew.garage.sgbd.skill.entity;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.crew.garage.sgbd.team.entity.TeammateEntity;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity(

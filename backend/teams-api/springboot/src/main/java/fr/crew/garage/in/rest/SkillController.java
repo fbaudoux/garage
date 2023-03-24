@@ -38,7 +38,6 @@ public class SkillController {
 
     public SkillController(SkillRepository skillRepository, TeammateRepository teammateRepository) {
 
-        ModelMapper mapper = new ModelMapper();
         SkillDomainService skillDomainService = new SkillDomainService(skillRepository, teammateRepository);
 
         this.createSkillUseCase = new CreateSkillUseCase(skillDomainService);

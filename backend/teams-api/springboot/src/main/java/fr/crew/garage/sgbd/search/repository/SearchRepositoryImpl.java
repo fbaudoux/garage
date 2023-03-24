@@ -2,7 +2,6 @@ package fr.crew.garage.sgbd.search.repository;
 
 import fr.crew.garage.domain.search.entity.SearchEntity;
 import fr.crew.garage.domain.search.repository.SearchRepository;
-import fr.crew.garage.domain.team.entity.TeamEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 

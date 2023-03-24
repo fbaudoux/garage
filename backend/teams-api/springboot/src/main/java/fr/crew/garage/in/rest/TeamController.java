@@ -133,7 +133,7 @@ public class TeamController {
 
     @ApiOperation(value = "createTeammate", notes = "Create a new teammates with a name given in parameter")
     @PostMapping({"/teammates/"})
-    public ResponseEntity createTeammate(@Valid @RequestBody String name) {
+    public ResponseEntity<URI> createTeammate(@Valid @RequestBody String name) {
 
         TeammateEntity newMate = new TeammateEntity();
         newMate.setName(name);
@@ -146,7 +146,7 @@ public class TeamController {
 
     @ApiOperation(value = "createTeam", notes = "Create a new team with a name given in parameter")
     @PostMapping({"/teams/"})
-    public ResponseEntity createTeam(@Valid @RequestBody TeamEntity teamDTO) {
+    public ResponseEntity<URI> createTeam(@Valid @RequestBody TeamEntity teamDTO) {
         TeamEntity res = createTeamUseCase.execute(teamDTO);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{id}")

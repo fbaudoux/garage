@@ -2,7 +2,6 @@ package fr.crew.garage.domain.search.repository;
 
 import fr.crew.garage.domain.search.entity.SearchEntity;
 
-import java.util.Arrays;
 import java.util.List;
 
 public interface SearchRepository {

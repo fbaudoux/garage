@@ -1,6 +1,5 @@
 package fr.crew.garage.sgbd.team.repository;
 
-import fr.crew.garage.domain.team.entity.TeamEntity;
 import fr.crew.garage.domain.team.entity.TeammateEntity;
 import fr.crew.garage.domain.team.repository.TeammateRepository;
 import org.modelmapper.ModelMapper;
